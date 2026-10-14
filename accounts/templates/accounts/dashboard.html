@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Customer Dashboard | Noblesse Motor Cars</title>
     <style>
-        body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f3f8fa; color: #071522; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 22px 7%; background: #071522; color: #fff; }
-        header a { color: #62e6f4; text-decoration: none; margin-left: 20px; }
-        main { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 6vw; color: #fff; background: rgba(6, 19, 31, 0.96); }
+        .brand { display: inline-block; text-decoration: none; color: #fff; letter-spacing: .27em; font-size: 13px; font-weight: 800; }
+        .brand span { display: block; margin-top: 5px; color: #64e7f3; letter-spacing: .12em; font-size: 9px; font-weight: 700; }
+        .nav a { margin-left: 24px; color: #d4e1e7; text-decoration: none; font-size: 13px; transition: color .2s ease; }
+        .nav a:hover { color: #64e7f3; }
+        .signout-btn { padding: 0; border: 0; color: #d4e1e7; background: transparent; font: inherit; font-size: 13px; cursor: pointer; transition: color .2s ease; margin-left: 24px; }
+        .signout-btn:hover { color: #64e7f3; }
+        main { max-width: 1100px; margin: 40px auto; padding: 0 6vw; }
         h1 { margin-bottom: 30px; font-size: 32px; }
         .section-box { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 32px; }
         .section-box h2 { margin-top: 0; font-size: 20px; border-bottom: 2px solid #eef4f6; padding-bottom: 12px; }
@@ -19,14 +23,19 @@
     </style>
 </head>
 <body>
-    <header>
-        <strong>NOBLESSE MOTOR CARS</strong>
+    <header class="nav">
+        <a href="/" class="brand">
+            NOBLESSE MOTOR CARS
+            <span>DRIVE WHAT MOVES YOU</span>
+        </a>
         <nav>
-            <a href="/">Showroom</a>
-            <form method="post" action="/accounts/logout/" style="display:inline;margin-left:20px;">
+            <a href="/">Inventory</a>
+            <span style="margin-left:24px;color:#64e7f3;font-size:13px;">Hi, {{ user.username }}</span>
+            <form method="post" action="/accounts/logout/" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" style="padding:0;border:0;color:#62e6f4;background:transparent;font:inherit;cursor:pointer;">Sign out</button>
+                <button type="submit" class="signout-btn">Sign out</button>
             </form>
+            <a href="/admin/">Admin portal</a>
         </nav>
     </header>
     <main>

@@ -1,142 +1,506 @@
+{% load humanize %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} | Apex Autos</title>
+    <title>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} | Noblesse Motor Cars</title>
     <style>
+        :root {
+            --ink: #06131f;
+            --ink2: #0b2637;
+            --cyan: #64e7f3;
+            --cyan-dark: #268da0;
+            --mist: #f1f7f8;
+            --card-bg: #f8fcfe;
+            --muted: #78909f;
+            --line: #dce9ec;
+        }
         * { box-sizing: border-box; }
-        body { margin: 0; color: #071522; background: #f3f8fa; font-family: Arial, sans-serif; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 22px 7%; color: white; background: #071522; }
-        header a { color: white; margin-left: 20px; text-decoration: none; }
-        .hero { padding: 70px 7%; color: white; background: linear-gradient(120deg, #071522, #16536a); }
-        .eyebrow { color: #62e6f4; text-transform: uppercase; letter-spacing: .2em; font-size: 11px; font-weight: bold; }
-        h1 { max-width: 800px; margin: 15px 0; font-size: clamp(42px, 7vw, 76px); line-height: .98; }
-        .hero p { color: #d4e1e7; font-size: 18px; }
-        main { display: grid; grid-template-columns: 1.1fr .9fr; gap: 30px; padding: 55px 7%; }
-        .visual { display: grid; place-items: center; min-height: 380px; border-radius: 18px; color: #071522; background: linear-gradient(140deg, #d5eef2, #79a9b7); font-size: 92px; font-weight: bold; }
-        .panel { padding: 30px; border-radius: 18px; background: white; box-shadow: 0 16px 38px #07152218; }
-        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; color: #6d8492; line-height: 1.5; }
-        .specs strong { display: block; color: #071522; }
-        .price { margin: 24px 0; font-size: 30px; font-weight: bold; }
-        .button { display: inline-block; padding: 15px 20px; border-radius: 8px; color: #071522; background: #62e6f4; text-decoration: none; font-weight: bold; }
-        @media (max-width: 760px) { main { grid-template-columns: 1fr; padding-left: 5%; padding-right: 5%; } header { padding-left: 5%; padding-right: 5%; } }
-.vehicle-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-    margin-bottom: 26px;
-}
-.gallery-image {
-    min-height: 230px;
-    margin: 0;
-    overflow: hidden;
-    border-radius: 18px;
-    background: linear-gradient(145deg, #17343c, #0d2026);
-    box-shadow: 0 18px 40px rgba(16,36,43,.14);
-}
-.gallery-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 230px;
-    object-fit: cover;
-    transition: transform .25s ease;
-}
-.gallery-image:hover img { transform: scale(1.035); }
-@media (max-width: 640px) {
-    .vehicle-gallery { grid-template-columns: 1fr; }
-}
-.back-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    width: min(1080px, 88%);
-    margin: 24px auto 0;
-}
-.back-link {
-    color: #268da0;
-    font-size: 14px;
-    font-weight: 800;
-    text-decoration: none;
-}
-.back-link:hover { color: #075a64; text-decoration: underline; }
-@media (max-width: 640px) {
-    .back-row { width: 90%; align-items: flex-start; flex-direction: column; }
-}
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--mist);
+            font-family: Inter, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
+        /* Consistent Top Navigation */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 6vw;
+            color: #fff;
+            background: rgba(6, 19, 31, 0.96);
+        }
+        .brand {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            letter-spacing: .27em;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .brand span {
+            display: block;
+            margin-top: 5px;
+            color: var(--cyan);
+            letter-spacing: .12em;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        .nav a {
+            margin-left: 24px;
+            color: #d4e1e7;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color .2s ease;
+        }
+        .nav a:hover { color: var(--cyan); }
+        .signout-btn {
+            padding: 0;
+            border: 0;
+            color: #d4e1e7;
+            background: transparent;
+            font: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: color .2s ease;
+        }
+        .signout-btn:hover { color: var(--cyan); }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 60px 6vw 54px;
+            color: #fff;
+            background: radial-gradient(circle at 85% 12%, #1c6071 0, transparent 36%),
+                        linear-gradient(118deg, var(--ink), var(--ink2));
+        }
+        .hero-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+        .eyebrow {
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: .22em;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(100, 231, 243, 0.16);
+            border: 1px solid rgba(100, 231, 243, 0.35);
+            color: var(--cyan);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        h1 {
+            margin: 8px 0 12px;
+            font-size: clamp(36px, 5.5vw, 64px);
+            line-height: 1.02;
+            letter-spacing: -.05em;
+        }
+        .hero p {
+            max-width: 620px;
+            margin: 0;
+            color: #c9d8df;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Breadcrumb / Back Row */
+        .back-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 6vw 0;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--cyan-dark);
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: color .2s ease;
+        }
+        .back-link:hover {
+            color: var(--ink);
+            text-decoration: underline;
+        }
+
+        /* Showcase Grid */
+        main {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 36px;
+            padding: 28px 6vw 80px;
+            align-items: start;
+        }
+
+        /* Gallery Showcase */
+        .showcase-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .main-stage {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #12252c, #07151b);
+            border: 1px solid #dce9ec;
+            box-shadow: 0 20px 48px rgba(6, 19, 31, 0.12);
+        }
+        .main-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity .25s ease;
+        }
+        .main-stage-fallback {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            font-size: 96px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #8aeaf2;
+            background: linear-gradient(145deg, #17343c, #0d2026);
+        }
+        .thumb-strip {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .thumb-item {
+            flex: 0 0 110px;
+            height: 78px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(6, 19, 31, 0.08);
+            transition: border-color .2s ease, transform .2s ease;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .thumb-item:hover, .thumb-item.active {
+            border-color: var(--cyan-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Detail Panel */
+        .panel {
+            padding: 38px;
+            border-radius: 22px;
+            background: #fff;
+            border: 1px solid var(--line);
+            box-shadow: 0 24px 60px rgba(6, 19, 31, 0.08);
+        }
+        .panel .eyebrow {
+            color: var(--cyan-dark);
+            margin-bottom: 18px;
+        }
+
+        /* Specs Grid */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+        .spec-card {
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: var(--card-bg);
+            border: 1px solid #e3eef1;
+        }
+        .spec-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 5px;
+        }
+        .spec-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        /* Price */
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin: 22px 0 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+        .price {
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: -.04em;
+            color: var(--ink);
+        }
+        .price-badge {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--cyan-dark);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+        }
+        .desc {
+            color: #516976;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 0 28px;
+        }
+
+        /* Action Row */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 24px;
+            border-radius: 12px;
+            border: none;
+            background: var(--cyan);
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(100, 231, 243, 0.3);
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(100, 231, 243, 0.45);
+            background: #81edfa;
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 22px;
+            border-radius: 12px;
+            border: 1.5px solid var(--cyan-dark);
+            background: #eef9fb;
+            color: var(--cyan-dark);
+            font-size: 14px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--cyan-dark);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 24px 6vw;
+            color: #9cb0ba;
+            background: var(--ink);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 960px) {
+            main {
+                grid-template-columns: 1fr;
+                padding-left: 5vw;
+                padding-right: 5vw;
+            }
+            .main-stage {
+                height: 380px;
+            }
+        }
+        @media (max-width: 640px) {
+            .nav { padding: 18px 5vw; }
+            .hero { padding: 40px 5vw; }
+            .back-row { padding: 18px 5vw 0; }
+            main { padding: 20px 5vw 60px; }
+            .panel { padding: 24px; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .action-row { flex-direction: column; align-items: stretch; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+            .main-stage { height: 260px; }
+        }
     </style>
 </head>
 <body>
-<header>
-    <strong>NOBLESSE MOTOR CARS</strong>
+
+<header class="nav">
+    <a href="/" class="brand">
+        NOBLESSE MOTOR CARS
+        <span>DRIVE WHAT MOVES YOU</span>
+    </a>
     <nav>
-    <a href="/">Inventory</a>
-{% if user.is_authenticated %}
-    <span style="margin-left:20px;color:#62e6f4;">Hi, {{ user.username }}</span>
-    <form method="post" action="/accounts/logout/" style="display:inline;margin-left:20px;">
-    {% csrf_token %}
-    <button type="submit" style="padding:0;border:0;color:#62e6f4;background:transparent;font:inherit;cursor:pointer;">Sign out</button>
-</form>
-
-{% else %}
-    <a href="/accounts/login/">Sign in</a>
-    <a href="/accounts/register/">Create account</a>
-{% endif %}
-    <a href="/admin/">Admin portal</a>
-</nav>
-
+        <a href="/">Inventory</a>
+        {% if user.is_authenticated %}
+            <span style="margin-left:24px;color:var(--cyan);font-size:13px;">Hi, {{ user.username }}</span>
+            <a href="/accounts/dashboard/">My account</a>
+            <form method="post" action="/accounts/logout/" style="display:inline;margin-left:24px;">
+                {% csrf_token %}
+                <button type="submit" class="signout-btn">Sign out</button>
+            </form>
+        {% else %}
+            <a href="/accounts/login/">Sign in</a>
+            <a href="/accounts/register/">Create account</a>
+        {% endif %}
+        <a href="/admin/">Admin portal</a>
+    </nav>
 </header>
+
 <section class="hero">
-    <div class="eyebrow">Noblesse Motor Cars collection · {{ vehicle.status }}</div>
+    <div class="hero-top">
+        <span class="eyebrow">Noblesse Motor Cars Collection</span>
+        <span class="status-badge">{{ vehicle.status }}</span>
+    </div>
     <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h1>
-    <p>Prepared with care for your next chapter.</p>
+    <p>Prepared with meticulous care for your next chapter.</p>
 </section>
+
 <div class="back-row">
-    <a class="back-link" href="/">← Back to inventory</a>
+    <a class="back-link" href="/">← Back to all inventory</a>
     {% if user.is_authenticated %}
-    <a class="back-link" href="/accounts/dashboard/">My account</a>
+        <a class="back-link" href="/accounts/dashboard/">My account →</a>
     {% endif %}
 </div>
 
 <main>
-    {% with gallery=vehicle.images.all %}
-{% if gallery %}
-<div class="vehicle-gallery">
-    {% for item in gallery %}
-    <figure class="gallery-image">
-        <img src="{{ item.image.url }}" alt="{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}">
-    </figure>
-    {% endfor %}
-</div>
-{% else %}
-<div class="visual">{{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}</div>
-{% endif %}
-{% endwith %}
+    <!-- Left Showcase Gallery -->
+    <div class="showcase-column">
+        {% with images=vehicle.images.all %}
+            {% if images %}
+                <div class="main-stage">
+                    <img id="mainVehicleImage" src="{{ images.0.image.url }}" alt="{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}">
+                </div>
+                {% if images|length > 1 %}
+                    <div class="thumb-strip">
+                        {% for img in images %}
+                            <div class="thumb-item {% if forloop.first %}active{% endif %}" onclick="switchImage('{{ img.image.url }}', this)">
+                                <img src="{{ img.image.url }}" alt="Photo {{ forloop.counter }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="main-stage">
+                    <div class="main-stage-fallback">
+                        {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Right Specs & Action Panel -->
     <section class="panel">
-        <div class="eyebrow">Vehicle details</div>
-        <div class="specs">
-            <div><strong>Body style</strong>{{ vehicle.body_style }}</div>
-            <div><strong>Fuel type</strong>{{ vehicle.fuel_type }}</div>
-            <div><strong>Transmission</strong>{{ vehicle.transmission }}</div>
-            <div><strong>Mileage</strong>{{ vehicle.mileage }} km</div>
+        <div class="eyebrow">Vehicle Details</div>
+
+        <div class="specs-grid">
+            <div class="spec-card">
+                <span class="spec-label">Body style</span>
+                <span class="spec-val">{{ vehicle.body_style }}</span>
+            </div>
+            <div class="spec-card">
+                <span class="spec-label">Fuel type</span>
+                <span class="spec-val">{{ vehicle.fuel_type }}</span>
+            </div>
+            <div class="spec-card">
+                <span class="spec-label">Transmission</span>
+                <span class="spec-val">{{ vehicle.transmission }}</span>
+            </div>
+            <div class="spec-card">
+                <span class="spec-label">Mileage</span>
+                <span class="spec-val">{{ vehicle.mileage|intcomma }} km</span>
+            </div>
         </div>
-        <div class="price">${{ vehicle.price|floatformat:0 }}</div>
-<p>{{ vehicle.description|default:"A carefully selected vehicle with a clear pricing and considered ownership experience." }}</p>
 
-<a class="button" href="/appointments/request/{{ vehicle.id }}/">Request a test drive</a>
+        <div class="price-row">
+            <div class="price">${{ vehicle.price|floatformat:0|intcomma }}</div>
+            <span class="price-badge">Clear Pricing</span>
+        </div>
 
-{% if user.is_authenticated %}
-    <form method="post" action="/accounts/save/{{ vehicle.id }}/" style="display:inline;margin-left:10px;">
-    {% csrf_token %}
-    <button class="button" type="submit" style="background:#d9f5f7;">Save vehicle</button>
-</form>
+        <p class="desc">
+            {{ vehicle.description|default:"A carefully selected vehicle with clear pricing and a considered ownership experience." }}
+        </p>
 
-{% else %}
-    <a class="button" href="/accounts/login/" style="margin-left:10px;background:#d9f5f7;">Sign in to save</a>
-{% endif %}
+        <div class="action-row">
+            <a class="btn-primary" href="/appointments/request/{{ vehicle.id }}/">
+                Request a test drive →
+            </a>
 
+            {% if user.is_authenticated %}
+                <form method="post" action="/accounts/save/{{ vehicle.id }}/" style="display:inline;">
+                    {% csrf_token %}
+                    <button class="btn-secondary" type="submit">
+                        ★ Save vehicle
+                    </button>
+                </form>
+            {% else %}
+                <a class="btn-secondary" href="/accounts/login/">
+                    Sign in to save
+                </a>
+            {% endif %}
+        </div>
     </section>
 </main>
+
+<footer>
+    Noblesse Motor Cars · Curated vehicles for your next chapter.
+</footer>
+
+<script>
+    function switchImage(src, element) {
+        var mainImg = document.getElementById('mainVehicleImage');
+        if (mainImg) {
+            mainImg.style.opacity = '0.4';
+            setTimeout(function() {
+                mainImg.src = src;
+                mainImg.style.opacity = '1';
+            }, 120);
+        }
+        var thumbs = document.querySelectorAll('.thumb-item');
+        thumbs.forEach(function(t) { t.classList.remove('active'); });
+        if (element) { element.classList.add('active'); }
+    }
+</script>
+
 </body>
 </html>
