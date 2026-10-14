@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} | Apex Autos</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #071522; background: #f3f8fa; font-family: Arial, sans-serif; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 22px 7%; color: white; background: #071522; }
+        header a { color: white; margin-left: 20px; text-decoration: none; }
+        .hero { padding: 70px 7%; color: white; background: linear-gradient(120deg, #071522, #16536a); }
+        .eyebrow { color: #62e6f4; text-transform: uppercase; letter-spacing: .2em; font-size: 11px; font-weight: bold; }
+        h1 { max-width: 800px; margin: 15px 0; font-size: clamp(42px, 7vw, 76px); line-height: .98; }
+        .hero p { color: #d4e1e7; font-size: 18px; }
+        main { display: grid; grid-template-columns: 1.1fr .9fr; gap: 30px; padding: 55px 7%; }
+        .visual { display: grid; place-items: center; min-height: 380px; border-radius: 18px; color: #071522; background: linear-gradient(140deg, #d5eef2, #79a9b7); font-size: 92px; font-weight: bold; }
+        .panel { padding: 30px; border-radius: 18px; background: white; box-shadow: 0 16px 38px #07152218; }
+        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; color: #6d8492; line-height: 1.5; }
+        .specs strong { display: block; color: #071522; }
+        .price { margin: 24px 0; font-size: 30px; font-weight: bold; }
+        .button { display: inline-block; padding: 15px 20px; border-radius: 8px; color: #071522; background: #62e6f4; text-decoration: none; font-weight: bold; }
+        @media (max-width: 760px) { main { grid-template-columns: 1fr; padding-left: 5%; padding-right: 5%; } header { padding-left: 5%; padding-right: 5%; } }
+.vehicle-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 26px;
+}
+.gallery-image {
+    min-height: 230px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #17343c, #0d2026);
+    box-shadow: 0 18px 40px rgba(16,36,43,.14);
+}
+.gallery-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 230px;
+    object-fit: cover;
+    transition: transform .25s ease;
+}
+.gallery-image:hover img { transform: scale(1.035); }
+@media (max-width: 640px) {
+    .vehicle-gallery { grid-template-columns: 1fr; }
+}
+.back-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    width: min(1080px, 88%);
+    margin: 24px auto 0;
+}
+.back-link {
+    color: #268da0;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+}
+.back-link:hover { color: #075a64; text-decoration: underline; }
+@media (max-width: 640px) {
+    .back-row { width: 90%; align-items: flex-start; flex-direction: column; }
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <strong>NOBLESSE MOTOR CARS</strong>
+    <nav>
+    <a href="/">Inventory</a>
+{% if user.is_authenticated %}
+    <span style="margin-left:20px;color:#62e6f4;">Hi, {{ user.username }}</span>
+    <form method="post" action="/accounts/logout/" style="display:inline;margin-left:20px;">
+    {% csrf_token %}
+    <button type="submit" style="padding:0;border:0;color:#62e6f4;background:transparent;font:inherit;cursor:pointer;">Sign out</button>
+</form>
+
+{% else %}
+    <a href="/accounts/login/">Sign in</a>
+    <a href="/accounts/register/">Create account</a>
+{% endif %}
+    <a href="/admin/">Admin portal</a>
+</nav>
+
+</header>
+<section class="hero">
+    <div class="eyebrow">Noblesse Motor Cars collection · {{ vehicle.status }}</div>
+    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h1>
+    <p>Prepared with care for your next chapter.</p>
+</section>
+<div class="back-row">
+    <a class="back-link" href="/">← Back to inventory</a>
+    {% if user.is_authenticated %}
+    <a class="back-link" href="/accounts/dashboard/">My account</a>
+    {% endif %}
+</div>
+
+<main>
+    {% with gallery=vehicle.images.all %}
+{% if gallery %}
+<div class="vehicle-gallery">
+    {% for item in gallery %}
+    <figure class="gallery-image">
+        <img src="{{ item.image.url }}" alt="{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}">
+    </figure>
+    {% endfor %}
+</div>
+{% else %}
+<div class="visual">{{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}</div>
+{% endif %}
+{% endwith %}
+    <section class="panel">
+        <div class="eyebrow">Vehicle details</div>
+        <div class="specs">
+            <div><strong>Body style</strong>{{ vehicle.body_style }}</div>
+            <div><strong>Fuel type</strong>{{ vehicle.fuel_type }}</div>
+            <div><strong>Transmission</strong>{{ vehicle.transmission }}</div>
+            <div><strong>Mileage</strong>{{ vehicle.mileage }} km</div>
+        </div>
+        <div class="price">${{ vehicle.price|floatformat:0 }}</div>
+<p>{{ vehicle.description|default:"A carefully selected vehicle with a clear pricing and considered ownership experience." }}</p>
+
+<a class="button" href="/appointments/request/{{ vehicle.id }}/">Request a test drive</a>
+
+{% if user.is_authenticated %}
+    <form method="post" action="/accounts/save/{{ vehicle.id }}/" style="display:inline;margin-left:10px;">
+    {% csrf_token %}
+    <button class="button" type="submit" style="background:#d9f5f7;">Save vehicle</button>
+</form>
+
+{% else %}
+    <a class="button" href="/accounts/login/" style="margin-left:10px;background:#d9f5f7;">Sign in to save</a>
+{% endif %}
+
+    </section>
+</main>
+</body>
+</html>
