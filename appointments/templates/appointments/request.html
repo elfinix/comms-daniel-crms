@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Request Test Drive | Noblesse Motor Cars</title>
+    <style>
+        body { margin: 0; font-family: Inter, Arial, sans-serif; background: #071522; color: #fff; min-height: 100vh; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 22px 7%; background: #071522; border-bottom: 1px solid #16364a; }
+        header a { color: #62e6f4; text-decoration: none; }
+        main { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+        .card { background: #0c2131; border: 1px solid #1a3c53; padding: 36px; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        h1 { margin-top: 0; font-size: 26px; }
+        .eyebrow { color: #62e6f4; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        label { display: block; margin: 18px 0 6px; font-size: 13px; color: #a5c3cf; }
+        select, textarea, input { width: 100%; box-sizing: border-box; padding: 12px 14px; background: #071522; border: 1px solid #234b66; border-radius: 8px; color: #fff; font-family: inherit; }
+        .button { display: block; width: 100%; margin-top: 24px; padding: 14px; border: 0; border-radius: 8px; background: #62e6f4; color: #071522; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .back { display: block; text-align: center; margin-top: 20px; color: #78909f; text-decoration: none; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <header>
+        <strong>NOBLESSE MOTOR CARS</strong>
+        <a href="/">Showroom</a>
+    </header>
+    <main>
+        <div class="card">
+            <div class="eyebrow">Test Drive Booking</div>
+            <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h1>
+            <p style="color:#a5c3cf;font-size:14px;">Select a convenient appointment time slot. Our concierge will prepare the car for your visit.</p>
+            <form method="post">
+                {% csrf_token %}
+                <label>Available Appointment Slot</label>
+                <select name="slot_id" required>
+                    {% for slot in slots %}
+                    <option value="{{ slot.id }}">{{ slot.starts_at|date:"M d, Y @ h:i A" }} - {{ slot.ends_at|date:"h:i A" }} (Capacity: {{ slot.capacity }})</option>
+                    {% empty %}
+                    <option disabled selected>No active slots available. Please contact concierge.</option>
+                    {% endfor %}
+                </select>
+                <label>Appointment Type</label>
+                <select name="kind">
+                    <option value="test_drive" selected>Test Drive</option>
+                    <option value="consultation">Vehicle Consultation</option>
+                    <option value="trade_in">Trade-in Appraisal</option>
+                </select>
+                <label>Special Requests / Notes</label>
+                <textarea name="notes" rows="3" placeholder="Any specific preferences or questions for our specialists?"></textarea>
+                <button type="submit" class="button">Confirm Appointment Request</button>
+            </form>
+            <a class="back" href="/vehicle/{{ vehicle.id }}/">← Back to vehicle details</a>
+        </div>
+    </main>
+</body>
+</html>

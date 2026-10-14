@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Dashboard | Noblesse Motor Cars</title>
+    <style>
+        body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f3f8fa; color: #071522; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 22px 7%; background: #071522; color: #fff; }
+        header a { color: #62e6f4; text-decoration: none; margin-left: 20px; }
+        main { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        h1 { margin-bottom: 30px; font-size: 32px; }
+        .section-box { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 32px; }
+        .section-box h2 { margin-top: 0; font-size: 20px; border-bottom: 2px solid #eef4f6; padding-bottom: 12px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 16px; }
+        .card { border: 1px solid #dce9ec; border-radius: 12px; padding: 18px; }
+        .tag { font-size: 11px; font-weight: bold; color: #268da0; text-transform: uppercase; }
+        .app-item { border-left: 4px solid #62e6f4; background: #f8fcfe; padding: 16px; margin-bottom: 12px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <header>
+        <strong>NOBLESSE MOTOR CARS</strong>
+        <nav>
+            <a href="/">Showroom</a>
+            <form method="post" action="/accounts/logout/" style="display:inline;margin-left:20px;">
+                {% csrf_token %}
+                <button type="submit" style="padding:0;border:0;color:#62e6f4;background:transparent;font:inherit;cursor:pointer;">Sign out</button>
+            </form>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome, {{ user.username }}</h1>
+
+        <div class="section-box">
+            <h2>Saved Vehicles</h2>
+            {% if saved_vehicles %}
+                <div class="grid">
+                    {% for item in saved_vehicles %}
+                    <div class="card">
+                        <div class="tag">{{ item.vehicle.year }} · {{ item.vehicle.status }}</div>
+                        <h3>{{ item.vehicle.make }} {{ item.vehicle.model }}</h3>
+                        <p>${{ item.vehicle.price|floatformat:0 }} · {{ item.vehicle.mileage }} km</p>
+                        <a href="/vehicle/{{ item.vehicle.id }}/" style="color:#268da0;font-weight:bold;text-decoration:none;">View vehicle →</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color:#78909f;">You haven't saved any vehicles yet. <a href="/" style="color:#268da0;">Explore our collection</a>.</p>
+            {% endif %}
+        </div>
+
+        <div class="section-box">
+            <h2>My Appointments & Test Drives</h2>
+            {% if appointments %}
+                {% for app in appointments %}
+                <div class="app-item">
+                    <strong>{{ app.reference }}</strong> · <span class="tag">{{ app.status|upper }}</span><br>
+                    Vehicle: <strong>{{ app.vehicle }}</strong><br>
+                    Slot: {{ app.slot.starts_at|date:"M d, Y h:i A" }} - {{ app.slot.ends_at|date:"h:i A" }}<br>
+                    <small style="color:#78909f;">Notes: {{ app.notes|default:"None" }}</small>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color:#78909f;">No scheduled appointments.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
