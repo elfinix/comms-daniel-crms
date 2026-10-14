@@ -11,6 +11,7 @@ env/
 
 # Spec & local commission documentation
 spec/
+*.zip
 
 # Database journals & local SQLite locks
 *.sqlite3-journal
