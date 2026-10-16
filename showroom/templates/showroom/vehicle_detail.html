@@ -4,154 +4,359 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ vehicle.year }} {{ vehicle.display_name }} | Noblesse Motor Cars</title>
+    <title>{{ vehicle.year }} {{ vehicle.display_name }} | {{ settings.dealership_name|default:"Noblesse Motor Cars" }}</title>
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
     <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lenis Smooth Scroll CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
+
     <style>
         :root {
-            --ink: #06131f;
-            --ink2: #0b2637;
+            --bg-deep: #040c14;
+            --bg-card: #091b29;
+            --bg-card-hover: #0e293e;
+            --border-subtle: rgba(100, 231, 243, 0.14);
+            --border-glow: rgba(100, 231, 243, 0.35);
             --cyan: #64e7f3;
-            --cyan-dark: #268da0;
-            --mist: #f1f7f8;
-            --card-bg: #f8fcfe;
-            --muted: #78909f;
-            --line: #dce9ec;
+            --cyan-dim: #268da0;
+            --cyan-glow: rgba(100, 231, 243, 0.25);
+            --silver: #d1e2e9;
+            --muted: #829aa8;
+            --white: #ffffff;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Cinzel', serif;
         }
-        * { box-sizing: border-box; }
+
+        /* Lenis & Global Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        /* Custom Luxury Scrollbar matching landing and showroom */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #16364b var(--bg-deep);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+        
         body {
-            margin: 0;
-            color: var(--ink);
-            background: var(--mist);
-            font-family: Inter, Arial, sans-serif;
+            font-family: var(--font-main);
+            background-color: var(--bg-deep);
+            color: var(--silver);
+            line-height: 1.6;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Consistent Top Navigation */
-        .nav {
+        a { text-decoration: none; color: inherit; transition: all 0.25s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* Container matching 1320px standard */
+        .container {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 8px;
+        }
+        .eyebrow::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 1.5px;
+            background: var(--cyan);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 26px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #04101a;
+            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.28);
+        }
+        .btn-primary:hover {
+            background: #8cf0f9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(100, 231, 243, 0.45);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            border-color: rgba(100, 231, 243, 0.25);
+            backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+            border-color: var(--cyan);
+            background: rgba(100, 231, 243, 0.12);
+            transform: translateY(-2px);
+            color: var(--cyan);
+        }
+
+        /* FLOATING LUXURY CAPSULE HEADER */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+        .header-inner {
+            pointer-events: auto;
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
+            height: 64px;
+            padding: 0 20px 0 16px;
+            background: rgba(6, 17, 27, 0.84);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(100, 231, 243, 0.16);
+            border-radius: 100px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 20px 6vw;
-            color: #fff;
-            background: rgba(6, 19, 31, 0.96);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .brand {
-            display: inline-block;
-            text-decoration: none;
-            color: #fff;
-            letter-spacing: .27em;
-            font-size: 13px;
-            font-weight: 800;
-        }
-        .brand span {
-            display: block;
-            margin-top: 5px;
-            color: var(--cyan);
-            letter-spacing: .12em;
-            font-size: 9px;
-            font-weight: 700;
-        }
-        .nav a {
-            margin-left: 24px;
-            color: #d4e1e7;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color .2s ease;
-        }
-        .nav a:hover { color: var(--cyan); }
-        .signout-btn {
-            padding: 0;
-            border: 0;
-            color: #d4e1e7;
-            background: transparent;
-            font: inherit;
-            font-size: 13px;
-            cursor: pointer;
-            transition: color .2s ease;
-        }
-        .signout-btn:hover { color: var(--cyan); }
-
-        /* Hero */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            padding: 60px 6vw 54px;
-            color: #fff;
-            background: radial-gradient(circle at 85% 12%, #1c6071 0, transparent 36%),
-                        linear-gradient(118deg, var(--ink), var(--ink2));
-        }
-        .hero-top {
+        .logo-wrap {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 12px;
+            gap: 12px;
+            padding-right: 12px;
         }
-        .eyebrow {
+        .logo-emblem {
+            width: 34px;
+            height: 34px;
+            filter: drop-shadow(0 0 8px rgba(100, 231, 243, 0.35));
+            transition: transform 0.3s ease;
+        }
+        .logo-wrap:hover .logo-emblem {
+            transform: scale(1.06) rotate(3deg);
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            color: var(--white);
+            line-height: 1.15;
+        }
+        .logo-tag {
+            font-size: 7.5px;
+            font-weight: 700;
+            letter-spacing: 0.26em;
             color: var(--cyan);
             text-transform: uppercase;
-            letter-spacing: .22em;
-            font-size: 11px;
-            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--silver);
+            letter-spacing: 0.04em;
+            padding: 6px 12px;
+            border-radius: 100px;
+            transition: all 0.25s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--white);
+            background: rgba(100, 231, 243, 0.12);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-action-link {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--silver);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 100px;
+            transition: all 0.25s ease;
+        }
+        .header-action-link:hover {
+            color: var(--cyan);
+            background: rgba(100, 231, 243, 0.08);
+        }
+        .header-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Detail Hero Section */
+        .detail-hero {
+            padding: 120px 0 28px;
+            background: radial-gradient(circle at 85% 15%, rgba(28, 96, 113, 0.25) 0%, transparent 45%),
+                        linear-gradient(180deg, #040c14 0%, #061523 100%);
+            border-bottom: 1px solid rgba(100, 231, 243, 0.1);
+            position: relative;
+        }
+        .detail-header-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
         }
         .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(100, 231, 243, 0.16);
-            border: 1px solid rgba(100, 231, 243, 0.35);
-            color: var(--cyan);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-        }
-        h1 {
-            margin: 8px 0 12px;
-            font-size: clamp(36px, 5.5vw, 64px);
-            line-height: 1.02;
-            letter-spacing: -.05em;
-        }
-        .hero p {
-            max-width: 620px;
-            margin: 0;
-            color: #c9d8df;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        /* Breadcrumb / Back Row */
-        .back-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 22px 6vw 0;
-        }
-        .back-link {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--cyan-dark);
-            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 10.5px;
             font-weight: 800;
-            text-decoration: none;
-            transition: color .2s ease;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
         }
-        .back-link:hover {
-            color: var(--ink);
-            text-decoration: underline;
+        .badge-available {
+            background: rgba(74, 222, 128, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.35);
+        }
+        .badge-reserved {
+            background: rgba(251, 146, 60, 0.12);
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.35);
+        }
+        .badge-featured {
+            background: rgba(100, 231, 243, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(100, 231, 243, 0.4);
+        }
+        .badge-certified {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--silver);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
 
-        /* Showcase Grid */
-        main {
+        .detail-title {
+            font-family: var(--font-main);
+            font-size: clamp(32px, 4.2vw, 54px);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        .detail-sub {
+            color: var(--muted);
+            font-size: 15px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+
+        /* Back Navigation Row */
+        .back-nav-bar {
+            padding: 24px 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .back-pill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 100px;
+            background: rgba(9, 27, 41, 0.6);
+            border: 1px solid rgba(100, 231, 243, 0.18);
+            color: var(--silver);
+            font-size: 12.5px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+        }
+        .back-pill-btn:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            background: rgba(100, 231, 243, 0.1);
+            transform: translateX(-3px);
+        }
+        .vin-tag {
+            font-family: monospace;
+            font-size: 12px;
+            color: #637d8e;
+            letter-spacing: 0.08em;
+        }
+
+        /* Main Vehicle Detail Layout */
+        .vehicle-layout {
             display: grid;
-            grid-template-columns: 1.25fr 1fr;
+            grid-template-columns: 1.22fr 1fr;
             gap: 36px;
-            padding: 28px 6vw 80px;
+            padding-bottom: 80px;
             align-items: start;
         }
 
-        /* Gallery Showcase */
+        /* Left Showcase Gallery */
         .showcase-column {
             display: flex;
             flex-direction: column;
@@ -162,17 +367,17 @@
             width: 100%;
             height: 480px;
             overflow: hidden;
-            border-radius: 20px;
-            background: linear-gradient(145deg, #12252c, #07151b);
-            border: 1px solid #dce9ec;
-            box-shadow: 0 20px 48px rgba(6, 19, 31, 0.12);
+            border-radius: 24px;
+            background: radial-gradient(circle at 50% 50%, #0d2334 0%, #05101a 100%);
+            border: 1px solid rgba(100, 231, 243, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(100, 231, 243, 0.08);
         }
         .main-stage img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: opacity .25s ease;
+            transition: opacity 0.25s ease, transform 0.4s ease;
         }
         .main-stage-fallback {
             display: grid;
@@ -182,24 +387,29 @@
             font-size: 96px;
             font-weight: 900;
             letter-spacing: 4px;
-            color: #8aeaf2;
-            background: linear-gradient(145deg, #17343c, #0d2026);
+            color: var(--cyan);
+            background: linear-gradient(145deg, #102736, #07151f);
         }
         .thumb-strip {
             display: flex;
             gap: 12px;
             overflow-x: auto;
-            padding-bottom: 4px;
+            padding: 4px 2px 8px;
+            scrollbar-width: thin;
+            scrollbar-color: #16364b transparent;
         }
+        .thumb-strip::-webkit-scrollbar { height: 4px; }
+        .thumb-strip::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
         .thumb-item {
             flex: 0 0 110px;
-            height: 78px;
-            border-radius: 12px;
+            height: 76px;
+            border-radius: 14px;
             overflow: hidden;
-            border: 2px solid transparent;
+            border: 2px solid rgba(100, 231, 243, 0.15);
+            background: #07151f;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(6, 19, 31, 0.08);
-            transition: border-color .2s ease, transform .2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+            transition: all 0.25s ease;
         }
         .thumb-item img {
             width: 100%;
@@ -208,304 +418,571 @@
             display: block;
         }
         .thumb-item:hover, .thumb-item.active {
-            border-color: var(--cyan-dark);
+            border-color: var(--cyan);
             transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(100, 231, 243, 0.25);
         }
 
-        /* Detail Panel */
-        .panel {
-            padding: 38px;
-            border-radius: 22px;
-            background: #fff;
-            border: 1px solid var(--line);
-            box-shadow: 0 24px 60px rgba(6, 19, 31, 0.08);
-        }
-        .panel .eyebrow {
-            color: var(--cyan-dark);
-            margin-bottom: 18px;
+        /* Right Specs & Action Panel */
+        .detail-panel {
+            background: rgba(9, 27, 41, 0.72);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 36px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
         }
 
-        /* Specs Grid */
         .specs-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 26px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0 28px;
         }
         .spec-card {
             padding: 14px 18px;
-            border-radius: 12px;
-            background: var(--card-bg);
-            border: 1px solid #e3eef1;
+            border-radius: 14px;
+            background: rgba(4, 12, 20, 0.65);
+            border: 1px solid rgba(100, 231, 243, 0.12);
+            transition: border-color 0.25s ease;
+        }
+        .spec-card:hover {
+            border-color: rgba(100, 231, 243, 0.3);
         }
         .spec-label {
             display: block;
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 10px;
+            font-weight: 700;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: .08em;
-            margin-bottom: 5px;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
         }
         .spec-val {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--ink);
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.3;
         }
 
-        /* Price */
-        .price-row {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin: 22px 0 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--line);
+        /* Price Box */
+        .price-box {
+            padding: 22px;
+            background: rgba(4, 12, 20, 0.8);
+            border: 1px solid rgba(100, 231, 243, 0.2);
+            border-radius: 16px;
+            margin-bottom: 24px;
         }
-        .price {
-            font-size: 38px;
-            font-weight: 900;
-            letter-spacing: -.04em;
-            color: var(--ink);
-        }
-        .price-badge {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--cyan-dark);
-            text-transform: uppercase;
-            letter-spacing: .12em;
-        }
-        .desc {
-            color: #516976;
-            font-size: 15px;
-            line-height: 1.7;
-            margin: 0 0 28px;
-        }
-
-        /* Action Row */
-        .action-row {
+        .price-label-row {
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .price-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+        }
+        .price-guarantee-pill {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--cyan);
+            background: rgba(100, 231, 243, 0.12);
+            padding: 3px 8px;
+            border-radius: 100px;
+            border: 1px solid rgba(100, 231, 243, 0.25);
+        }
+        .price-amount {
+            font-size: clamp(34px, 3.8vw, 44px);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+        .price-financing-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* Gallery Narrative Card (Below Gallery) */
+        .gallery-narrative-card {
+            background: rgba(9, 27, 41, 0.72);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 28px 30px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+            margin-top: 8px;
+        }
+        .narrative-header {
+            margin-bottom: 14px;
+        }
+        .narrative-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            margin-top: 4px;
+            letter-spacing: -0.02em;
+        }
+        .vehicle-description {
+            font-size: 14px;
+            color: #b8ccd8;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+
+        .action-cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        /* Dealership Assurance Points */
+        .assurance-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .assurance-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12.5px;
+            color: var(--silver);
+        }
+        .assurance-icon {
+            color: var(--cyan);
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* Related Vehicles Section */
+        .related-section {
+            padding: 60px 0 90px;
+            border-top: 1px solid rgba(100, 231, 243, 0.1);
+            background: linear-gradient(180deg, transparent 0%, rgba(6, 21, 35, 0.4) 100%);
+        }
+        .related-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            gap: 16px;
             flex-wrap: wrap;
         }
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 15px 24px;
-            border-radius: 12px;
-            border: none;
-            background: var(--cyan);
-            color: var(--ink);
-            font-size: 14px;
+        .related-title {
+            font-size: 26px;
             font-weight: 800;
-            text-decoration: none;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(100, 231, 243, 0.3);
-            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+            color: var(--white);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(100, 231, 243, 0.45);
-            background: #81edfa;
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
         }
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 22px;
-            border-radius: 12px;
-            border: 1.5px solid var(--cyan-dark);
-            background: #eef9fb;
-            color: var(--cyan-dark);
-            font-size: 14px;
+        .related-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .related-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-glow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--cyan-glow);
+        }
+        .related-media {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: #040c14;
+        }
+        .related-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .related-card:hover .related-media img {
+            transform: scale(1.06);
+        }
+        .related-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .related-vehicle-title {
+            font-size: 18px;
             font-weight: 800;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all .2s ease;
+            color: var(--white);
+            margin-bottom: 6px;
+            line-height: 1.3;
         }
-        .btn-secondary:hover {
-            background: var(--cyan-dark);
-            color: #fff;
-            transform: translateY(-2px);
+        .related-vehicle-sub {
+            font-size: 12px;
+            color: var(--cyan);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+        .related-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .related-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--white);
         }
 
         /* Footer */
-        footer {
-            padding: 24px 6vw;
-            color: #9cb0ba;
-            background: var(--ink);
-            font-size: 12px;
+        .site-footer {
+            padding: 32px 0;
+            background: #03080e;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 12.5px;
+            color: var(--muted);
         }
 
         /* Responsive */
-        @media (max-width: 960px) {
-            main {
+        @media (max-width: 1024px) {
+            .vehicle-layout {
                 grid-template-columns: 1fr;
-                padding-left: 5vw;
-                padding-right: 5vw;
             }
             .main-stage {
-                height: 380px;
+                height: 400px;
             }
         }
-        @media (max-width: 640px) {
-            .nav { padding: 18px 5vw; }
-            .hero { padding: 40px 5vw; }
-            .back-row { padding: 18px 5vw 0; }
-            main { padding: 20px 5vw 60px; }
-            .panel { padding: 24px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .site-header { padding: 10px 12px; }
+            .header-inner { height: 54px; padding: 0 12px; }
+            .main-stage { height: 280px; }
             .specs-grid { grid-template-columns: 1fr; }
-            .action-row { flex-direction: column; align-items: stretch; }
-            .btn-primary, .btn-secondary { width: 100%; text-align: center; }
-            .main-stage { height: 260px; }
+            .related-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<header class="nav">
-    <a href="/" class="brand" style="display:flex;align-items:center;gap:12px;">
-        <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:36px;height:36px;">
-        <div>
-            NOBLESSE MOTOR CARS
-            <span>DRIVE WHAT MOVES YOU</span>
-        </div>
-    </a>
-    <nav>
-        <a href="/inventory/">Showroom</a>
-        {% if user.is_authenticated %}
-            <span style="margin-left:24px;color:var(--cyan);font-size:13px;">Hi, {{ user.username }}</span>
-            <a href="/accounts/dashboard/">My account</a>
-            <form method="post" action="/accounts/logout/" style="display:inline;margin-left:24px;">
-                {% csrf_token %}
-                <button type="submit" class="signout-btn">Sign out</button>
-            </form>
-        {% else %}
-            <a href="/accounts/login/">Sign in</a>
-            <a href="/accounts/register/">Create account</a>
-        {% endif %}
-        <a href="/admin/">Admin portal</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <div class="hero-top">
-        <span class="eyebrow">Noblesse Motor Cars Collection</span>
-        <span class="status-badge">{{ vehicle.status }}</span>
-    </div>
-    <h1>{{ vehicle.year }} {{ vehicle.display_name }}</h1>
-    <p>Prepared with meticulous care for your next chapter.</p>
-</section>
-
-<div class="back-row">
-    <a class="back-link" href="/inventory/">← Back to all inventory</a>
-    {% if user.is_authenticated %}
-        <a class="back-link" href="/accounts/dashboard/">My account →</a>
-    {% endif %}
-</div>
-
-<main>
-    <!-- Left Showcase Gallery -->
-    <div class="showcase-column">
-        {% with images=vehicle.images.all %}
-            {% if images %}
-                <div class="main-stage">
-                    <img id="mainVehicleImage" src="{{ images.0.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
+    <!-- 1. FLOATING LUXURY CAPSULE HEADER -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="/" class="logo-wrap" title="Noblesse Motor Cars Home">
+                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem">
+                <div class="logo-text">
+                    <span class="logo-title">NOBLESSE</span>
+                    <span class="logo-tag">Motor Cars</span>
                 </div>
-                {% if images|length > 1 %}
-                    <div class="thumb-strip">
-                        {% for img in images %}
-                            <div class="thumb-item {% if forloop.first %}active{% endif %}" onclick="switchImage('{{ img.image.url }}', this)">
-                                <img src="{{ img.image.url }}" alt="Photo {{ forloop.counter }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% else %}
-                <div class="main-stage">
-                    <div class="main-stage-fallback">
-                        {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
-                    </div>
-                </div>
-            {% endif %}
-        {% endwith %}
-    </div>
-
-    <!-- Right Specs & Action Panel -->
-    <section class="panel">
-        <div class="eyebrow">Vehicle Details</div>
-
-        <div class="specs-grid">
-            <div class="spec-card">
-                <span class="spec-label">Body style</span>
-                <span class="spec-val">{{ vehicle.body_style }}</span>
-            </div>
-            <div class="spec-card">
-                <span class="spec-label">Fuel type</span>
-                <span class="spec-val">{{ vehicle.fuel_type }}</span>
-            </div>
-            <div class="spec-card">
-                <span class="spec-label">Transmission</span>
-                <span class="spec-val">{{ vehicle.transmission }}</span>
-            </div>
-            <div class="spec-card">
-                <span class="spec-label">Mileage</span>
-                <span class="spec-val">{{ vehicle.mileage|intcomma }} km</span>
-            </div>
-        </div>
-
-        <div class="price-row">
-            <div class="price">${{ vehicle.price|floatformat:0|intcomma }}</div>
-            <span class="price-badge">Clear Pricing</span>
-        </div>
-
-        <p class="desc">
-            {{ vehicle.description|default:"A carefully selected vehicle with clear pricing and a considered ownership experience." }}
-        </p>
-
-        <div class="action-row">
-            <a class="btn-primary" href="/appointments/request/{{ vehicle.id }}/">
-                Request a test drive →
             </a>
 
-            {% if user.is_authenticated %}
-                <form method="post" action="/accounts/save/{{ vehicle.id }}/" style="display:inline;">
-                    {% csrf_token %}
-                    <button class="btn-secondary" type="submit">
-                        ★ Save vehicle
-                    </button>
-                </form>
-            {% else %}
-                <a class="btn-secondary" href="/accounts/login/">
-                    Sign in to save
-                </a>
-            {% endif %}
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Overview</a></li>
+                    <li><a href="/inventory/" class="active">Showroom Vault</a></li>
+                    <li><a href="/#about-dealership">Philosophy</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                {% if user.is_authenticated %}
+                    <a href="/accounts/dashboard/" class="header-action-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Account</span>
+                    </a>
+                    <span class="header-divider"></span>
+                    <form method="post" action="/accounts/logout/" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="header-action-link" style="border:0;background:transparent;cursor:pointer;">Sign Out</button>
+                    </form>
+                {% else %}
+                    <a href="/accounts/login/" class="header-action-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"></circle><path d="M6 20v-2a6 6 0 0 1 12 0v2"></path></svg>
+                        <span>Client Access</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. DETAIL HERO -->
+    <section class="detail-hero">
+        <div class="container">
+            <div class="detail-header-top">
+                <span class="eyebrow">The Noblesse Vault Collection</span>
+                <span class="status-badge badge-{{ vehicle.status }}">{{ vehicle.status|title }}</span>
+                {% if vehicle.is_featured %}
+                    <span class="status-badge badge-featured">Featured Icon</span>
+                {% endif %}
+                <span class="status-badge badge-certified">250-Pt Aerospace Certified</span>
+            </div>
+
+            <h1 class="detail-title">{{ vehicle.year }} {{ vehicle.display_name }}</h1>
+            <p class="detail-sub">
+                Hand-curated, aerospace diagnostic inspected, and prepared for white-glove enclosed estate handover.
+            </p>
         </div>
     </section>
-</main>
 
-<footer>
-    Noblesse Motor Cars · Curated vehicles for your next chapter.
-</footer>
+    <!-- 3. BREADCRUMB & CONTENT CONTAINER -->
+    <div class="container">
+        
+        <div class="back-nav-bar">
+            <a href="/inventory/" class="back-pill-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Back to Showroom Vault</span>
+            </a>
+            <div class="vin-tag">VIN: {{ vehicle.vin }}</div>
+        </div>
 
-<script>
-    function switchImage(src, element) {
-        var mainImg = document.getElementById('mainVehicleImage');
-        if (mainImg) {
-            mainImg.style.opacity = '0.4';
-            setTimeout(function() {
-                mainImg.src = src;
-                mainImg.style.opacity = '1';
-            }, 120);
+        <!-- 4. SHOWCASE & SPECS LAYOUT -->
+        <div class="vehicle-layout">
+            
+            <!-- LEFT: GALLERY SHOWCASE -->
+            <div class="showcase-column">
+                {% with images=vehicle.images.all %}
+                    {% if images %}
+                        <div class="main-stage">
+                            <img id="mainVehicleImage" src="{{ images.0.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
+                        </div>
+                        {% if images|length > 1 %}
+                            <div class="thumb-strip">
+                                {% for img in images %}
+                                    <div class="thumb-item {% if forloop.first %}active{% endif %}" onclick="switchImage('{{ img.image.url }}', this)">
+                                        <img src="{{ img.image.url }}" alt="Angle {{ forloop.counter }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="main-stage">
+                            <div class="main-stage-fallback">
+                                {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Description / Equipment Narrative Card below Gallery -->
+                <article class="gallery-narrative-card">
+                    <div class="narrative-header">
+                        <span class="eyebrow">Vehicle Overview & Provenance</span>
+                        <h3 class="narrative-title">Craftsmanship, Equipment & Heritage</h3>
+                    </div>
+                    <div class="vehicle-description">
+                        {{ vehicle.description|default:"A carefully curated icon embodying automotive precision, single-price transparency, and an uncompromising ownership experience." }}
+                    </div>
+                </article>
+            </div>
+
+            <!-- RIGHT: SPECIFICATION DOSSIER & ACTION PANEL -->
+            <aside class="detail-panel">
+                <span class="eyebrow">Bespoke Specification Dossier</span>
+
+                <div class="specs-grid">
+                    <div class="spec-card">
+                        <span class="spec-label">Silhouette / Body</span>
+                        <span class="spec-val">{{ vehicle.body_style }}</span>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-label">Propulsion Source</span>
+                        <span class="spec-val">⚡ {{ vehicle.clean_fuel_type }}</span>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-label">Transmission</span>
+                        <span class="spec-val">{{ vehicle.transmission }}</span>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-label">Certified Odometer</span>
+                        <span class="spec-val">{{ vehicle.mileage|intcomma }} km</span>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-label">Exterior Color</span>
+                        <span class="spec-val">{{ vehicle.color|default:"Bespoke Finish" }}</span>
+                    </div>
+                    <div class="spec-card">
+                        <span class="spec-label">Model Year</span>
+                        <span class="spec-val">{{ vehicle.year }}</span>
+                    </div>
+                </div>
+
+                <div class="price-box">
+                    <div class="price-label-row">
+                        <span class="price-label">Transparent Single-Price</span>
+                        <span class="price-guarantee-pill">Guaranteed Price</span>
+                    </div>
+                    <div class="price-amount">${{ vehicle.price|floatformat:0|intcomma }}</div>
+                    <div class="price-financing-sub">
+                        Tier-1 bespoke financing available at {{ settings.financing_rate_teaser|default:"3.99% APR" }} with zero hidden dealer premiums.
+                    </div>
+                </div>
+
+                <div class="action-cta-group">
+                    <a href="/appointments/request/{{ vehicle.id }}/" class="btn btn-primary" style="width:100%;">
+                        <span>Request Private Test Drive Consultation</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+
+                    {% if user.is_authenticated %}
+                        <form method="post" action="/accounts/save/{{ vehicle.id }}/" style="width:100%;">
+                            {% csrf_token %}
+                            <button class="btn btn-secondary" type="submit" style="width:100%;">
+                                ★ Save to Client Vault Portfolio
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="/accounts/login/" class="btn btn-secondary" style="width:100%;">
+                            Sign In to Save Vehicle to Vault
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div class="assurance-list">
+                    <div class="assurance-item">
+                        <span class="assurance-icon">✦</span>
+                        <span>250-point aerospace diagnostic certification completed</span>
+                    </div>
+                    <div class="assurance-item">
+                        <span class="assurance-icon">✦</span>
+                        <span>Direct enclosed climate-controlled estate delivery</span>
+                    </div>
+                    <div class="assurance-item">
+                        <span class="assurance-icon">✦</span>
+                        <span>Concierge support: <strong style="color:var(--white);">{{ settings.phone|default:"+1 (800) 555-NOBLE" }}</strong></span>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+
+    </div>
+
+    <!-- 5. RELATED MASTERPIECES -->
+    {% if related_vehicles %}
+    <section class="related-section">
+        <div class="container">
+            <div class="related-header">
+                <div>
+                    <span class="eyebrow">Complementary Icons</span>
+                    <h2 class="related-title">You May Also Admire</h2>
+                </div>
+                <a href="/inventory/" class="back-pill-btn">
+                    <span>Explore Full Showroom</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+            </div>
+
+            <div class="related-grid">
+                {% for item in related_vehicles %}
+                <article class="related-card">
+                    <div class="related-media">
+                        {% with img=item.images.first %}
+                            {% if img and img.image %}
+                                <img src="{{ img.image.url }}" alt="{{ item.display_name }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
+                            {% else %}
+                                <img src="/media/vehicles/2026/10/range-rover-autobiography.jpg" alt="{{ item.display_name }}">
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="related-body">
+                        <h3 class="related-vehicle-title">{{ item.year }} {{ item.display_name }}</h3>
+                        <div class="related-vehicle-sub">{{ item.body_style }} · ⚡ {{ item.clean_fuel_type }}</div>
+                        <div class="related-action-row">
+                            <span class="related-price">${{ item.price|floatformat:0|intcomma }}</span>
+                            <a href="/vehicle/{{ item.id }}/" class="btn btn-primary" style="padding:8px 16px; font-size:12.5px;">Inspect Details</a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- 6. FOOTER -->
+    <footer class="site-footer">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:28px; height:28px;">
+                <span style="font-size:12.5px; font-weight:700; letter-spacing:0.18em; color:var(--white);">NOBLESSE MOTOR CARS</span>
+            </div>
+            <div>
+                © 2026 Noblesse Motor Cars. Aerospace diagnostic certified. All rights reserved.
+            </div>
+            <div>
+                <a href="/inventory/" style="color:var(--cyan); margin-right:16px;">Showroom Vault</a>
+                <a href="/" style="color:var(--silver);">Overview</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            autoRaf: true,
+            anchors: true,
+            lerp: 0.09,
+            duration: 1.2,
+            wheelMultiplier: 1.1,
+            touchMultiplier: 1.5,
+            smoothWheel: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
-        var thumbs = document.querySelectorAll('.thumb-item');
-        thumbs.forEach(function(t) { t.classList.remove('active'); });
-        if (element) { element.classList.add('active'); }
-    }
-</script>
+        requestAnimationFrame(raf);
 
+        // Sticky Header scroll styling effect
+        const headerInner = document.querySelector('.header-inner');
+        lenis.on('scroll', (e) => {
+            if (headerInner) {
+                if (e.scroll > 40) {
+                    headerInner.style.background = 'rgba(4, 12, 20, 0.94)';
+                    headerInner.style.boxShadow = '0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(100, 231, 243, 0.14)';
+                } else {
+                    headerInner.style.background = 'rgba(6, 17, 27, 0.84)';
+                    headerInner.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08)';
+                }
+            }
+        });
+
+        // Gallery Image Switcher
+        function switchImage(src, element) {
+            const mainImg = document.getElementById('mainVehicleImage');
+            if (mainImg) {
+                mainImg.style.opacity = '0.3';
+                mainImg.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    mainImg.src = src;
+                    mainImg.style.opacity = '1';
+                    mainImg.style.transform = 'scale(1)';
+                }, 140);
+            }
+            document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
