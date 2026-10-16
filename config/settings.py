@@ -88,6 +88,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'

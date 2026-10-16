@@ -1,0 +1,1232 @@
+{% load static humanize %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Showroom & Vault | {{ settings.dealership_name|default:"Noblesse Motor Cars" }}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lenis Smooth Scroll CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.27/dist/lenis.css">
+
+    <style>
+        :root {
+            --bg-deep: #040c14;
+            --bg-card: #091b29;
+            --bg-card-hover: #0e293e;
+            --border-subtle: rgba(100, 231, 243, 0.12);
+            --border-glow: rgba(100, 231, 243, 0.35);
+            --cyan: #64e7f3;
+            --cyan-dim: #268da0;
+            --cyan-glow: rgba(100, 231, 243, 0.25);
+            --silver: #d1e2e9;
+            --muted: #829aa8;
+            --white: #ffffff;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Cinzel', serif;
+        }
+
+        /* Lenis & Global Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        /* Custom Luxury Scrollbar matching landing page */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: #16364b var(--bg-deep);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
+        
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-deep);
+            color: var(--silver);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.25s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* Typography & Utilities */
+        .container {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 8px;
+        }
+        .eyebrow::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 1.5px;
+            background: var(--cyan);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: var(--cyan);
+            color: #04101a;
+            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.25);
+        }
+        .btn-primary:hover {
+            background: #8cf0f9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(100, 231, 243, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* SECTION 1: FLOATING LUXURY CAPSULE HEADER */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+        .header-inner {
+            pointer-events: auto;
+            max-width: 1320px;
+            width: 100%;
+            margin: 0 auto;
+            height: 64px;
+            padding: 0 20px 0 16px;
+            background: rgba(6, 17, 27, 0.84);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(100, 231, 243, 0.16);
+            border-radius: 100px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-right: 12px;
+        }
+        .logo-emblem {
+            width: 34px;
+            height: 34px;
+            filter: drop-shadow(0 0 8px rgba(100, 231, 243, 0.35));
+            transition: transform 0.3s ease;
+        }
+        .logo-wrap:hover .logo-emblem {
+            transform: scale(1.06) rotate(3deg);
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            color: var(--white);
+            line-height: 1.15;
+        }
+        .logo-tag {
+            font-size: 7.5px;
+            font-weight: 700;
+            letter-spacing: 0.26em;
+            color: var(--cyan);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: #9cb1bf;
+            letter-spacing: 0.03em;
+            padding: 7px 14px;
+            border-radius: 100px;
+            transition: all 0.2s ease;
+        }
+        .nav-links a:hover {
+            color: var(--white);
+            background: rgba(100, 231, 243, 0.08);
+        }
+        .nav-links a.active {
+            color: var(--cyan);
+            background: rgba(100, 231, 243, 0.12);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-action-link {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #b8cdd9;
+            padding: 6px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 100px;
+            transition: color 0.2s ease;
+        }
+        .header-action-link:hover {
+            color: var(--cyan);
+        }
+        .header-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(100, 231, 243, 0.18);
+        }
+        .header-btn-primary {
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            background: var(--cyan);
+            color: #04101a;
+            box-shadow: 0 4px 16px rgba(100, 231, 243, 0.25);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-btn-primary:hover {
+            background: #8cf0f9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(100, 231, 243, 0.4);
+        }
+
+        /* Showroom Hero Header */
+        .showroom-hero {
+            padding: 130px 0 32px;
+            background: radial-gradient(circle at 80% 20%, rgba(28, 96, 113, 0.22) 0%, transparent 40%),
+                        linear-gradient(180deg, #040c14 0%, #061523 100%);
+            border-bottom: 1px solid rgba(100, 231, 243, 0.08);
+        }
+        .showroom-title-wrap {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .showroom-title {
+            font-size: clamp(30px, 3.8vw, 48px);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        /* Showroom Layout: Sidebar + Main Content */
+        .showroom-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 36px;
+            padding: 40px 0 100px;
+            align-items: start;
+        }
+
+        /* LEFT SIDEBAR: FILTERS */
+        .showroom-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(9, 27, 41, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(100, 231, 243, 0.12);
+        }
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-reset {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cyan);
+            cursor: pointer;
+        }
+        .sidebar-reset:hover {
+            text-decoration: underline;
+        }
+
+        .filter-section {
+            margin-bottom: 24px;
+        }
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+        .filter-section-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .filter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .filter-item-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            border-radius: 9px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #b5cbd8;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .filter-item-link:hover {
+            background: rgba(100, 231, 243, 0.08);
+            border-color: rgba(100, 231, 243, 0.2);
+            color: var(--white);
+        }
+        .filter-item-link.active {
+            background: rgba(100, 231, 243, 0.15);
+            border-color: var(--cyan);
+            color: var(--cyan);
+            font-weight: 700;
+            box-shadow: 0 0 12px rgba(100, 231, 243, 0.15);
+        }
+        .filter-count-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--muted);
+        }
+        .filter-item-link.active .filter-count-badge {
+            background: rgba(100, 231, 243, 0.25);
+            color: var(--cyan);
+        }
+
+        .sidebar-assurance-card {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(14, 45, 68, 0.4), rgba(6, 20, 31, 0.8));
+            border: 1px solid rgba(100, 231, 243, 0.15);
+        }
+        .assurance-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .assurance-desc {
+            font-size: 11.5px;
+            color: #92abb9;
+            line-height: 1.5;
+        }
+
+        /* RIGHT CONTENT: SEARCH & SORT TOP BAR + PRODUCT GRID */
+        .showroom-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Top Action Bar: Purely Search & Sort */
+        .search-sort-bar {
+            position: relative;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(9, 27, 41, 0.65);
+            border: 1px solid rgba(100, 231, 243, 0.18);
+            border-radius: 16px;
+            padding: 14px 18px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+        .search-sort-bar:focus-within,
+        .search-sort-bar:has(.custom-dropdown.open) {
+            z-index: 200;
+        }
+        .search-input-wrap {
+            flex: 1;
+            position: relative;
+        }
+        .search-input-wrap input {
+            width: 100%;
+            padding: 13px 18px 13px 44px;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: rgba(4, 12, 20, 0.85);
+            color: var(--white);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .search-input-wrap input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 16px rgba(100, 231, 243, 0.2);
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+        /* Custom Luxury Dropdown */
+        .custom-dropdown {
+            position: relative;
+            min-width: 205px;
+            user-select: none;
+            z-index: 70;
+        }
+        .custom-dropdown.open {
+            z-index: 300;
+        }
+        .custom-dropdown-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 13px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: rgba(4, 12, 20, 0.85);
+            color: var(--white);
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+        .custom-dropdown-trigger:hover,
+        .custom-dropdown.open .custom-dropdown-trigger {
+            border-color: var(--cyan);
+            background: rgba(6, 17, 27, 0.95);
+            box-shadow: 0 0 16px rgba(100, 231, 243, 0.2);
+        }
+        .custom-dropdown-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .custom-dropdown.open .custom-dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        .custom-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 100%;
+            min-width: 220px;
+            background: rgba(6, 17, 27, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(100, 231, 243, 0.25);
+            border-radius: 12px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(100, 231, 243, 0.08);
+            padding: 6px;
+            list-style: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 500;
+        }
+        .custom-dropdown.open .custom-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .custom-dropdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #d1e2e9;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .custom-dropdown-item:hover {
+            background: rgba(100, 231, 243, 0.12);
+            color: var(--cyan);
+            transform: translateX(3px);
+        }
+        .custom-dropdown-item.active {
+            background: rgba(100, 231, 243, 0.18);
+            color: var(--white);
+            font-weight: 700;
+        }
+        .custom-dropdown-check {
+            color: var(--cyan);
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .custom-dropdown-item.active .custom-dropdown-check {
+            opacity: 1;
+        }
+
+        /* Active Filter Pills & Results Header */
+        .results-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13.5px;
+            color: var(--muted);
+        }
+        .active-pills-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .active-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(100, 231, 243, 0.12);
+            border: 1px solid rgba(100, 231, 243, 0.3);
+            border-radius: 100px;
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .active-pill-remove {
+            color: var(--cyan);
+            font-weight: 800;
+            cursor: pointer;
+            margin-left: 2px;
+        }
+        .active-pill-remove:hover {
+            color: #fff;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 28px;
+        }
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-glow);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(100, 231, 243, 0.12);
+        }
+        .product-media {
+            height: 230px;
+            position: relative;
+            overflow: hidden;
+            background: #071520;
+        }
+        .product-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover .product-media img {
+            transform: scale(1.08);
+        }
+        .product-badges {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+        .badge-available {
+            background: rgba(14, 53, 40, 0.85);
+            border: 1px solid rgba(80, 227, 194, 0.3);
+            color: #50e3c2;
+        }
+        .badge-reserved {
+            background: rgba(60, 40, 10, 0.85);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+            color: #f5a623;
+        }
+        .badge-sold {
+            background: rgba(50, 15, 20, 0.85);
+            border: 1px solid rgba(235, 87, 87, 0.3);
+            color: #eb5757;
+        }
+        .badge-featured {
+            background: rgba(6, 19, 31, 0.85);
+            border: 1px solid rgba(100, 231, 243, 0.3);
+            color: var(--cyan);
+        }
+
+        .product-details {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .product-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cyan-dim);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .product-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+        .product-vin {
+            font-size: 11px;
+            color: #637d8e;
+            font-family: monospace;
+            margin-bottom: 14px;
+        }
+        .product-spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 18px;
+            font-size: 12px;
+        }
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .spec-k {
+            font-size: 9.5px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .spec-v {
+            font-weight: 600;
+            color: #d8e8f0;
+            margin-top: 2px;
+        }
+
+        .product-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            gap: 12px;
+        }
+        .product-price-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .price-label {
+            font-size: 9.5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+        .product-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        /* Empty State */
+        .empty-showroom {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(9, 27, 41, 0.4);
+            border: 1px dashed rgba(100, 231, 243, 0.2);
+            border-radius: 20px;
+            grid-column: 1 / -1;
+        }
+        .empty-showroom h3 {
+            font-size: 22px;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+        .empty-showroom p {
+            color: var(--muted);
+            max-width: 440px;
+            margin: 0 auto 24px;
+        }
+
+        /* Site Footer */
+        .site-footer {
+            background: #03080e;
+            border-top: 1px solid rgba(100, 231, 243, 0.1);
+            padding: 60px 0 30px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .showroom-layout { grid-template-columns: 1fr; }
+            .showroom-sidebar { position: static; margin-bottom: 10px; }
+            .filter-list { flex-direction: row; flex-wrap: wrap; }
+            .filter-item-link { flex: 1 1 calc(50% - 6px); }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .site-header { padding: 10px 12px; }
+            .header-inner { height: 54px; padding: 0 12px; }
+            .search-sort-bar { flex-direction: column; }
+            .custom-dropdown, .custom-dropdown-trigger { width: 100%; }
+            .product-grid { grid-template-columns: 1fr; }
+            .filter-item-link { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="/" class="logo-wrap" title="Noblesse Motor Cars Home">
+                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem">
+                <div class="logo-text">
+                    <span class="logo-title">NOBLESSE</span>
+                    <span class="logo-tag">Motor Cars</span>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Overview</a></li>
+                    <li><a href="/inventory/" class="active">Showroom Vault</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                {% if user.is_authenticated %}
+                    <a href="/accounts/dashboard/" class="header-action-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>Account</span>
+                    </a>
+                    <span class="header-divider"></span>
+                    <form method="post" action="/accounts/logout/" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="header-action-link" style="border:0;background:transparent;cursor:pointer;">Sign Out</button>
+                    </form>
+                {% else %}
+                    <a href="/accounts/login/" class="header-action-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"></circle><path d="M6 20v-2a6 6 0 0 1 12 0v2"></path></svg>
+                        <span>Client Access</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Showroom Hero Header -->
+    <section class="showroom-hero">
+        <div class="container">
+            <div class="showroom-title-wrap">
+                <div>
+                    <span class="eyebrow">The Noblesse Vault</span>
+                    <h1 class="showroom-title">Vehicle Inventory Showroom</h1>
+                </div>
+                <div style="font-size:14px; color:var(--muted); max-width:440px;">
+                    Every automobile in our vault is certified via our 250-point aerospace diagnostic, available with transparent single-pricing and bespoke financing.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showroom Layout: Left Sidebar Filters + Main Product Area -->
+    <div class="container">
+        <div class="showroom-layout">
+            
+            <!-- LEFT SIDEBAR: FILTERS -->
+            <aside class="showroom-sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        <span>Filters</span>
+                    </div>
+                    {% if query or selected_body_style or selected_fuel_type or selected_status != "available" %}
+                        <a href="/inventory/" class="sidebar-reset">Reset All</a>
+                    {% endif %}
+                </div>
+
+                <!-- 1. Silhouette / Body Style -->
+                <div class="filter-section">
+                    <span class="filter-section-title">Silhouette</span>
+                    <ul class="filter-list">
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style=all" 
+                               class="filter-item-link {% if not selected_body_style or selected_body_style == 'all' %}active{% endif %}">
+                                <span>All Silhouettes</span>
+                                <span class="filter-count-badge">{{ total_inventory }}</span>
+                            </a>
+                        </li>
+                        {% for style in available_styles %}
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style={{ style.name }}" 
+                               class="filter-item-link {% if selected_body_style == style.name %}active{% endif %}">
+                                <span>{{ style.name }}</span>
+                                <span class="filter-count-badge">{{ style.count }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- 2. Powertrain / Energy -->
+                <div class="filter-section">
+                    <span class="filter-section-title">Powertrain</span>
+                    <ul class="filter-list">
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type=all" 
+                               class="filter-item-link {% if not selected_fuel_type or selected_fuel_type == 'all' %}active{% endif %}">
+                                <span>All Powertrains</span>
+                                <span class="filter-count-badge">{{ total_inventory }}</span>
+                            </a>
+                        </li>
+                        {% for fuel in available_fuels %}
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type={{ fuel.name }}" 
+                               class="filter-item-link {% if selected_fuel_type == fuel.name %}active{% endif %}">
+                                <span>{{ fuel.name }}</span>
+                                <span class="filter-count-badge">{{ fuel.count }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- 3. Availability Status -->
+                <div class="filter-section">
+                    <span class="filter-section-title">Availability</span>
+                    <ul class="filter-list">
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=available" 
+                               class="filter-item-link {% if selected_status == 'available' or not selected_status %}active{% endif %}">
+                                <span>Available in Vault</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=all" 
+                               class="filter-item-link {% if selected_status == 'all' %}active{% endif %}">
+                                <span>All Acquisition States</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sidebar Dealership Assurance -->
+                <div class="sidebar-assurance-card">
+                    <div class="assurance-title">Noblesse Guarantee</div>
+                    <div class="assurance-desc">
+                        Every listing represents live inventory with transparent single-pricing and 250-point aerospace diagnostic approval.
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RIGHT MAIN: SEARCH & SORT + PRODUCT LISTING -->
+            <main class="showroom-main">
+                
+                <!-- Purely Search and Sort Form -->
+                <form method="get" action="/inventory/" id="searchSortForm" class="search-sort-bar">
+                    <div class="search-input-wrap">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" name="q" value="{{ query }}" placeholder="Search by make, model, chassis, or keywords (e.g. Porsche, Electric, AMG, DB12)...">
+                    </div>
+                    
+                    <!-- Hidden native input to submit sort value seamlessly -->
+                    <input type="hidden" name="sort" id="sortInput" value="{{ selected_sort|default:'-is_featured' }}">
+
+                    <!-- Custom Luxury Sort Dropdown -->
+                    <div class="custom-dropdown" id="sortDropdown">
+                        <button type="button" class="custom-dropdown-trigger" id="sortDropdownTrigger" aria-haspopup="listbox" aria-expanded="false">
+                            <span id="selectedSortLabel">
+                                {% if selected_sort == "price_asc" %}Price: Low to High
+                                {% elif selected_sort == "price_desc" %}Price: High to Low
+                                {% elif selected_sort == "newest" %}Newest Model Year
+                                {% elif selected_sort == "mileage" %}Lowest Mileage
+                                {% else %}Featured First{% endif %}
+                            </span>
+                            <span class="custom-dropdown-arrow">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </span>
+                        </button>
+
+                        <ul class="custom-dropdown-menu" role="listbox" id="sortDropdownMenu">
+                            <li class="custom-dropdown-item {% if not selected_sort or selected_sort == '-is_featured' %}active{% endif %}" data-value="-is_featured" role="option">
+                                <span>Featured First</span>
+                                <span class="custom-dropdown-check">✓</span>
+                            </li>
+                            <li class="custom-dropdown-item {% if selected_sort == 'price_asc' %}active{% endif %}" data-value="price_asc" role="option">
+                                <span>Price: Low to High</span>
+                                <span class="custom-dropdown-check">✓</span>
+                            </li>
+                            <li class="custom-dropdown-item {% if selected_sort == 'price_desc' %}active{% endif %}" data-value="price_desc" role="option">
+                                <span>Price: High to Low</span>
+                                <span class="custom-dropdown-check">✓</span>
+                            </li>
+                            <li class="custom-dropdown-item {% if selected_sort == 'newest' %}active{% endif %}" data-value="newest" role="option">
+                                <span>Newest Model Year</span>
+                                <span class="custom-dropdown-check">✓</span>
+                            </li>
+                            <li class="custom-dropdown-item {% if selected_sort == 'mileage' %}active{% endif %}" data-value="mileage" role="option">
+                                <span>Lowest Mileage</span>
+                                <span class="custom-dropdown-check">✓</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="padding:13px 22px;">Search</button>
+
+                    <!-- Retain Sidebar Filter parameters when searching/sorting -->
+                    {% if selected_body_style and selected_body_style != 'all' %}
+                        <input type="hidden" name="body_style" value="{{ selected_body_style }}">
+                    {% endif %}
+                    {% if selected_fuel_type and selected_fuel_type != 'all' %}
+                        <input type="hidden" name="fuel_type" value="{{ selected_fuel_type }}">
+                    {% endif %}
+                    {% if selected_status %}
+                        <input type="hidden" name="status" value="{{ selected_status }}">
+                    {% endif %}
+                </form>
+
+                <!-- Active Filters & Results Summary -->
+                <div class="results-meta-row">
+                    <div>
+                        Showing <strong style="color:var(--white);">{{ total_count }}</strong> curated luxury vehicle{{ total_count|pluralize }}
+                    </div>
+
+                    {% if query or selected_body_style or selected_fuel_type or selected_status != "available" %}
+                    <div class="active-pills-wrap">
+                        {% if query %}
+                            <span class="active-pill">
+                                Search: "{{ query }}"
+                                <a href="?{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}" class="active-pill-remove">×</a>
+                            </span>
+                        {% endif %}
+                        {% if selected_body_style and selected_body_style != "all" %}
+                            <span class="active-pill">
+                                Silhouette: {{ selected_body_style }}
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}" class="active-pill-remove">×</a>
+                            </span>
+                        {% endif %}
+                        {% if selected_fuel_type and selected_fuel_type != "all" %}
+                            <span class="active-pill">
+                                Powertrain: {{ selected_fuel_type }}
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}" class="active-pill-remove">×</a>
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid">
+                    {% for vehicle in vehicles %}
+                    <article class="product-card">
+                        <div class="product-media">
+                            {% with cover=vehicle.images.first %}
+                                {% if cover %}
+                                    <img src="{{ cover.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" loading="lazy" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
+                                {% else %}
+                                    <div style="display:grid;place-items:center;height:100%;background:#091e2b;color:var(--cyan);font-weight:800;font-size:42px;">
+                                        {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+
+                            <div class="product-badges">
+                                <span class="status-badge badge-{{ vehicle.status }}">{{ vehicle.status|title }}</span>
+                                {% if vehicle.is_featured %}
+                                    <span class="status-badge badge-featured">Featured</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="product-details">
+                            <div class="product-eyebrow">{{ vehicle.year }} · {{ vehicle.body_style }}</div>
+                            <h2 class="product-title">{{ vehicle.display_name }}</h2>
+                            <div class="product-vin">VIN: {{ vehicle.vin }}</div>
+
+                            <div class="product-spec-grid">
+                                <div class="spec-item">
+                                    <span class="spec-k">Propulsion</span>
+                                    <span class="spec-v">⚡ {{ vehicle.clean_fuel_type }}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-k">Transmission</span>
+                                    <span class="spec-v">{{ vehicle.transmission }}</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-k">Odometer</span>
+                                    <span class="spec-v">{{ vehicle.mileage|intcomma }} km</span>
+                                </div>
+                                <div class="spec-item">
+                                    <span class="spec-k">Color Spec</span>
+                                    <span class="spec-v">{{ vehicle.color|default:"Bespoke" }}</span>
+                                </div>
+                            </div>
+
+                            <div class="product-action-row">
+                                <div class="product-price-box">
+                                    <span class="price-label">Clear Single-Price</span>
+                                    <span class="product-price">${{ vehicle.price|intcomma }}</span>
+                                </div>
+                                <a href="/vehicle/{{ vehicle.id }}/" class="btn btn-primary" style="padding:10px 18px; font-size:13px;">
+                                    <span>Inspect Details</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="empty-showroom">
+                        <h3>No Vehicles Match Your Selected Filters</h3>
+                        <p>We could not find any vehicle matching your criteria. Try adjusting your search query, silhouette, or energy source filter.</p>
+                        <a href="/inventory/" class="btn btn-primary">Reset Filters & Show All Vehicles</a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:30px; height:30px;">
+                <span style="font-size:13px; font-weight:700; letter-spacing:0.18em; color:var(--white);">NOBLESSE MOTOR CARS</span>
+            </div>
+            <div>
+                © 2026 Noblesse Motor Cars. Single-price guarantee. All rights reserved.
+            </div>
+            <div>
+                <a href="/" style="color:var(--cyan);">Landing Home</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lenis Smooth Scroll Initialization -->
+    <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll matching landing page
+        const lenis = new Lenis({
+            autoRaf: true,
+            anchors: true,
+            lerp: 0.09,
+            duration: 1.2,
+            wheelMultiplier: 1.1,
+            touchMultiplier: 1.5,
+            smoothWheel: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Sticky Header scroll styling effect
+        const headerInner = document.querySelector('.header-inner');
+        lenis.on('scroll', (e) => {
+            if (headerInner) {
+                if (e.scroll > 40) {
+                    headerInner.style.background = 'rgba(4, 12, 20, 0.94)';
+                    headerInner.style.boxShadow = '0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(100, 231, 243, 0.14)';
+                } else {
+                    headerInner.style.background = 'rgba(6, 17, 27, 0.84)';
+                    headerInner.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08)';
+                }
+            }
+        });
+
+        // Custom Sort Dropdown Handler
+        const sortDropdown = document.getElementById('sortDropdown');
+        const sortDropdownTrigger = document.getElementById('sortDropdownTrigger');
+        const sortInput = document.getElementById('sortInput');
+        const searchSortForm = document.getElementById('searchSortForm');
+
+        if (sortDropdown && sortDropdownTrigger) {
+            function setOpen(open) {
+                if (open) {
+                    sortDropdown.classList.add('open');
+                    sortDropdownTrigger.setAttribute('aria-expanded', 'true');
+                    if (searchSortForm) searchSortForm.style.zIndex = '300';
+                } else {
+                    sortDropdown.classList.remove('open');
+                    sortDropdownTrigger.setAttribute('aria-expanded', 'false');
+                    if (searchSortForm) searchSortForm.style.zIndex = '60';
+                }
+            }
+
+            sortDropdownTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const isOpen = sortDropdown.classList.contains('open');
+                setOpen(!isOpen);
+            });
+
+            sortDropdown.querySelectorAll('.custom-dropdown-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const val = item.getAttribute('data-value');
+                    sortInput.value = val;
+                    setOpen(false);
+                    searchSortForm.submit();
+                });
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sortDropdown.contains(e.target)) {
+                    setOpen(false);
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sortDropdown.classList.contains('open')) {
+                    setOpen(false);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

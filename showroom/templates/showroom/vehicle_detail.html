@@ -1,10 +1,12 @@
-{% load humanize %}
+{% load humanize static %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }} | Noblesse Motor Cars</title>
+    <title>{{ vehicle.year }} {{ vehicle.display_name }} | Noblesse Motor Cars</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
     <style>
         :root {
             --ink: #06131f;
@@ -365,12 +367,15 @@
 <body>
 
 <header class="nav">
-    <a href="/" class="brand">
-        NOBLESSE MOTOR CARS
-        <span>DRIVE WHAT MOVES YOU</span>
+    <a href="/" class="brand" style="display:flex;align-items:center;gap:12px;">
+        <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:36px;height:36px;">
+        <div>
+            NOBLESSE MOTOR CARS
+            <span>DRIVE WHAT MOVES YOU</span>
+        </div>
     </a>
     <nav>
-        <a href="/">Inventory</a>
+        <a href="/inventory/">Showroom</a>
         {% if user.is_authenticated %}
             <span style="margin-left:24px;color:var(--cyan);font-size:13px;">Hi, {{ user.username }}</span>
             <a href="/accounts/dashboard/">My account</a>
@@ -391,12 +396,12 @@
         <span class="eyebrow">Noblesse Motor Cars Collection</span>
         <span class="status-badge">{{ vehicle.status }}</span>
     </div>
-    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h1>
+    <h1>{{ vehicle.year }} {{ vehicle.display_name }}</h1>
     <p>Prepared with meticulous care for your next chapter.</p>
 </section>
 
 <div class="back-row">
-    <a class="back-link" href="/">← Back to all inventory</a>
+    <a class="back-link" href="/inventory/">← Back to all inventory</a>
     {% if user.is_authenticated %}
         <a class="back-link" href="/accounts/dashboard/">My account →</a>
     {% endif %}
@@ -408,13 +413,13 @@
         {% with images=vehicle.images.all %}
             {% if images %}
                 <div class="main-stage">
-                    <img id="mainVehicleImage" src="{{ images.0.image.url }}" alt="{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}">
+                    <img id="mainVehicleImage" src="{{ images.0.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
                 </div>
                 {% if images|length > 1 %}
                     <div class="thumb-strip">
                         {% for img in images %}
                             <div class="thumb-item {% if forloop.first %}active{% endif %}" onclick="switchImage('{{ img.image.url }}', this)">
-                                <img src="{{ img.image.url }}" alt="Photo {{ forloop.counter }}">
+                                <img src="{{ img.image.url }}" alt="Photo {{ forloop.counter }}" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
                             </div>
                         {% endfor %}
                     </div>

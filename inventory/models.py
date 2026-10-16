@@ -25,8 +25,22 @@ class Vehicle(models.Model):
     class Meta:
         ordering = ["-is_featured", "-created_at"]
 
+    @property
+    def display_name(self):
+        """Clean display name avoiding duplicate make if model already includes it."""
+        c_make = (self.make or "").strip()
+        c_model = (self.model or "").strip()
+        if c_model.lower().startswith(c_make.lower()):
+            return c_model
+        return f"{c_make} {c_model}".strip()
+
+    @property
+    def clean_fuel_type(self):
+        """Clean fuel type string stripping leading bullet points or symbols."""
+        return (self.fuel_type or "").lstrip("•-* ").strip()
+
     def __str__(self):
-        return f"{self.year} {self.make} {self.model}"
+        return f"{self.year} {self.display_name}"
 
 
 class VehicleImage(models.Model):

@@ -1,33 +1,144 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign In | Noblesse Motor Cars</title>
+    <title>Client Sign In | Noblesse Motor Cars</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
     <style>
-        body { margin: 0; font-family: Inter, Arial, sans-serif; background: #071522; color: #fff; display: grid; place-items: center; min-height: 100vh; }
-        .card { background: #0c2131; border: 1px solid #1a3c53; padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .eyebrow { display: block; margin-bottom: 12px; color: #64e7f3; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .2em; }
-        h1 { margin: 0 0 22px 0; font-size: 28px; font-weight: 800; line-height: 1.15; }
-        label { display: block; margin: 16px 0 6px; font-size: 13px; color: #a5c3cf; }
-        input[type=text], input[type=password] { width: 100%; box-sizing: border-box; padding: 12px 14px; background: #071522; border: 1px solid #234b66; border-radius: 8px; color: #fff; }
-        .button { display: block; width: 100%; margin-top: 24px; padding: 14px; border: 0; border-radius: 8px; background: #62e6f4; color: #071522; font-weight: bold; font-size: 15px; cursor: pointer; }
-        .foot { margin-top: 20px; font-size: 13px; text-align: center; color: #78909f; }
-        .foot a { color: #62e6f4; text-decoration: none; }
+        :root {
+            --bg-deep: #040c14;
+            --bg-card: #091b29;
+            --cyan: #64e7f3;
+            --cyan-glow: rgba(100, 231, 243, 0.25);
+            --border: rgba(100, 231, 243, 0.18);
+            --silver: #d1e2e9;
+            --muted: #829aa8;
+            --white: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 50% 20%, rgba(28, 96, 113, 0.22) 0%, transparent 60%), var(--bg-deep);
+            color: var(--silver);
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 44px 38px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(100, 231, 243, 0.1);
+            text-align: center;
+        }
+        .brand-emblem {
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 16px;
+            display: block;
+            filter: drop-shadow(0 0 12px var(--cyan-glow));
+        }
+        .eyebrow {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+        }
+        h1 {
+            margin: 0 0 24px 0;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+        form { text-align: left; }
+        label {
+            display: block;
+            margin: 16px 0 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #a5c3cf;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 13px 16px;
+            background: rgba(4, 12, 20, 0.85);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: #fff;
+            font-size: 14.5px;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        input[type=text]:focus, input[type=password]:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 12px rgba(100, 231, 243, 0.2);
+        }
+        .button {
+            display: block;
+            width: 100%;
+            margin-top: 26px;
+            padding: 14px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--cyan);
+            color: #04101a;
+            font-weight: 800;
+            font-size: 14.5px;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.25);
+            transition: all 0.25s ease;
+        }
+        .button:hover {
+            background: #8cf0f9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(100, 231, 243, 0.4);
+        }
+        .foot {
+            margin-top: 26px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .foot a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .foot a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="card">
-        <div class="eyebrow">Noblesse Motor Cars · Client Access</div>
-        <h1>Sign in</h1>
+        <a href="/">
+            <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Motor Cars Emblem" class="brand-emblem">
+        </a>
+        <div class="eyebrow">Noblesse Motor Cars</div>
+        <h1>Client Portal Access</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="button">Sign In</button>
+            <button type="submit" class="button">Access Sanctuary</button>
         </form>
         <div class="foot">
-            New customer? <a href="/accounts/register/">Create an account</a><br><br>
-            <a href="/">← Return to showroom</a>
+            New client? <a href="/accounts/register/">Request registration</a><br><br>
+            <a href="/inventory/">← Return to Showroom</a>
         </div>
     </div>
 </body>
