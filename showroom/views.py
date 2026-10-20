@@ -5,9 +5,9 @@ from inventory.models import DealershipSetting, Vehicle
 DEFAULT_SETTINGS = {
     "dealership_name": "NOBLESSE MOTOR CARS",
     "hero_headline": "Find the car that feels like you.",
-    "phone": "+1 (800) 555-NOBLE",
+    "phone": "0985 123 8888",
     "concierge_email": "concierge@noblessemotorcars.com",
-    "showroom_address": "1000 Luxury Way, Suite 500, Beverly Hills, CA",
+    "showroom_address": "29 Congressional Ave, Project 8, Quezon City, 1106 Metro Manila",
     "service_hours": "Monday - Saturday: 9:00 AM - 7:00 PM (By Private Appointment)",
     "warranty_teaser": "36-Month Certified Warranty",
     "financing_rate_teaser": "3.99% Bespoke Tier-1 APR",
