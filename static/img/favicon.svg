@@ -1,36 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
     <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b2637" />
-      <stop offset="100%" stop-color="#06131f" />
+      <stop offset="0%" stop-color="#18181c" />
+      <stop offset="60%" stop-color="#0e0e11" />
+      <stop offset="100%" stop-color="#060608" />
     </linearGradient>
-    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#64e7f3" />
-      <stop offset="100%" stop-color="#1c7c8c" />
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe69c" />
+      <stop offset="35%" stop-color="#d4af37" />
+      <stop offset="70%" stop-color="#9e7a2b" />
+      <stop offset="100%" stop-color="#f5e09f" />
     </linearGradient>
-    <linearGradient id="silverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="50%" stop-color="#b4d2db" />
-      <stop offset="100%" stop-color="#64e7f3" />
+      <stop offset="30%" stop-color="#faecc5" />
+      <stop offset="75%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#aa8222" />
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <filter id="goldShine" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#d4af37" flood-opacity="0.55"/>
     </filter>
   </defs>
 
   <!-- Outer Shield / Diamond Frame -->
-  <polygon points="32,3 59,16 59,42 32,61 5,42 5,16" fill="url(#shieldGrad)" stroke="url(#cyanGlow)" stroke-width="2.5" />
+  <polygon points="32,3 59,16 59,42 32,61 5,42 5,16" fill="url(#shieldGrad)" stroke="url(#goldGlow)" stroke-width="2.2" filter="url(#goldShine)" />
   
   <!-- Inner Facet Accent -->
-  <polygon points="32,9 52,19 52,39 32,54 12,39 12,19" fill="none" stroke="#64e7f3" stroke-width="0.8" opacity="0.4" />
+  <polygon points="32,9 52,19 52,39 32,54 12,39 12,19" fill="none" stroke="#d4af37" stroke-width="0.8" opacity="0.5" />
 
   <!-- Aerodynamic Wings / Speed Chevrons -->
-  <path d="M16 22 L32 14 L48 22 L32 26 Z" fill="url(#cyanGlow)" opacity="0.75" />
+  <path d="M16 22 L32 14 L48 22 L32 26 Z" fill="url(#goldGlow)" opacity="0.85" />
   
   <!-- Stylized Luxury "N" Emblem -->
-  <path d="M22 46 L22 25 L29 25 L38 39 L38 25 L43 25 L43 46 L36 46 L27 32 L27 46 Z" fill="url(#silverGlow)" filter="url(#glow)" />
+  <path d="M22 46 L22 25 L29 25 L38 39 L38 25 L43 25 L43 46 L36 46 L27 32 L27 46 Z" fill="url(#crestGold)" filter="url(#goldShine)" />
   
   <!-- Diamond Crest Accent -->
-  <polygon points="32,7 35,11 32,15 29,11" fill="#64e7f3" />
+  <polygon points="32,7 35,11 32,15 29,11" fill="#ffe69c" />
 </svg>

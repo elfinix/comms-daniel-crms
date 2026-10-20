@@ -7,8 +7,8 @@
     <title>Showroom & Vault | {{ settings.dealership_name|default:"Noblesse Motor Cars" }}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}?v=gold2">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}?v=gold2">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,16 +20,16 @@
 
     <style>
         :root {
-            --bg-deep: #040c14;
-            --bg-card: #091b29;
-            --bg-card-hover: #0e293e;
-            --border-subtle: rgba(100, 231, 243, 0.12);
-            --border-glow: rgba(100, 231, 243, 0.35);
-            --cyan: #64e7f3;
-            --cyan-dim: #268da0;
-            --cyan-glow: rgba(100, 231, 243, 0.25);
-            --silver: #d1e2e9;
-            --muted: #829aa8;
+            --bg-deep: #08080a;
+            --bg-card: #121215;
+            --bg-card-hover: #1a1a20;
+            --border-subtle: rgba(212, 175, 55, 0.12);
+            --border-glow: rgba(212, 175, 55, 0.35);
+            --cyan: #d4af37;
+            --cyan-dim: #9e7a2b;
+            --cyan-glow: rgba(212, 175, 55, 0.25);
+            --silver: #e2e2e7;
+            --muted: #9c9ca4;
             --white: #ffffff;
             --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-display: 'Cinzel', serif;
@@ -54,11 +54,11 @@
         /* Custom Luxury Scrollbar matching landing page */
         html {
             scrollbar-width: thin;
-            scrollbar-color: #16364b var(--bg-deep);
+            scrollbar-color: #26231c var(--bg-deep);
         }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #26231c; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
         
         body {
@@ -116,13 +116,13 @@
         }
         .btn-primary {
             background: var(--cyan);
-            color: #04101a;
-            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.25);
+            color: #08080a;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
         }
         .btn-primary:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-2px);
-            box-shadow: 0 6px 28px rgba(100, 231, 243, 0.4);
+            box-shadow: 0 6px 28px rgba(212, 175, 55, 0.4);
         }
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
@@ -155,21 +155,21 @@
             margin: 0 auto;
             height: 64px;
             padding: 0 20px 0 16px;
-            background: rgba(6, 17, 27, 0.84);
+            background: rgba(14, 14, 18, 0.84);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(100, 231, 243, 0.16);
+            border: 1px solid rgba(212, 175, 55, 0.16);
             border-radius: 100px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 175, 55, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .site-header.scrolled .header-inner {
-            background: rgba(4, 12, 20, 0.94);
-            border-color: rgba(100, 231, 243, 0.22);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(100, 231, 243, 0.14);
+            background: rgba(8, 8, 10, 0.94);
+            border-color: rgba(212, 175, 55, 0.22);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.14);
         }
         .logo-wrap {
             display: flex;
@@ -180,7 +180,7 @@
         .logo-emblem {
             width: 34px;
             height: 34px;
-            filter: drop-shadow(0 0 8px rgba(100, 231, 243, 0.35));
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
             transition: transform 0.3s ease;
         }
         .logo-wrap:hover .logo-emblem {
@@ -215,7 +215,7 @@
         .nav-links a {
             font-size: 13px;
             font-weight: 500;
-            color: #9cb1bf;
+            color: #9c9ca4;
             letter-spacing: 0.03em;
             padding: 7px 14px;
             border-radius: 100px;
@@ -223,11 +223,11 @@
         }
         .nav-links a:hover {
             color: var(--white);
-            background: rgba(100, 231, 243, 0.08);
+            background: rgba(212, 175, 55, 0.08);
         }
         .nav-links a.active {
             color: var(--cyan);
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
             font-weight: 600;
         }
 
@@ -239,7 +239,7 @@
         .header-action-link {
             font-size: 12.5px;
             font-weight: 600;
-            color: #b8cdd9;
+            color: #c4c4cc;
             padding: 6px 12px;
             display: inline-flex;
             align-items: center;
@@ -253,7 +253,7 @@
         .header-divider {
             width: 1px;
             height: 18px;
-            background: rgba(100, 231, 243, 0.18);
+            background: rgba(212, 175, 55, 0.18);
         }
         .header-btn-primary {
             padding: 8px 18px;
@@ -262,25 +262,25 @@
             font-weight: 700;
             letter-spacing: 0.04em;
             background: var(--cyan);
-            color: #04101a;
-            box-shadow: 0 4px 16px rgba(100, 231, 243, 0.25);
+            color: #08080a;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
             transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
         .header-btn-primary:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(100, 231, 243, 0.4);
+            box-shadow: 0 6px 22px rgba(212, 175, 55, 0.4);
         }
 
         /* Showroom Hero Header */
         .showroom-hero {
             padding: 130px 0 32px;
-            background: radial-gradient(circle at 80% 20%, rgba(28, 96, 113, 0.22) 0%, transparent 40%),
-                        linear-gradient(180deg, #040c14 0%, #061523 100%);
-            border-bottom: 1px solid rgba(100, 231, 243, 0.08);
+            background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.22) 0%, transparent 40%),
+                        linear-gradient(180deg, #08080a 0%, #0e0e12 100%);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
         }
         .showroom-title-wrap {
             display: flex;
@@ -310,7 +310,7 @@
         .showroom-sidebar {
             position: sticky;
             top: 100px;
-            background: rgba(9, 27, 41, 0.7);
+            background: rgba(18, 18, 22, 0.7);
             border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 24px;
@@ -323,7 +323,7 @@
             justify-content: space-between;
             padding-bottom: 16px;
             margin-bottom: 20px;
-            border-bottom: 1px solid rgba(100, 231, 243, 0.12);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.12);
         }
         .sidebar-title {
             font-size: 15px;
@@ -374,22 +374,22 @@
             border-radius: 9px;
             font-size: 13.5px;
             font-weight: 500;
-            color: #b5cbd8;
+            color: #b0b0b8;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid transparent;
             transition: all 0.2s ease;
         }
         .filter-item-link:hover {
-            background: rgba(100, 231, 243, 0.08);
-            border-color: rgba(100, 231, 243, 0.2);
+            background: rgba(212, 175, 55, 0.08);
+            border-color: rgba(212, 175, 55, 0.2);
             color: var(--white);
         }
         .filter-item-link.active {
-            background: rgba(100, 231, 243, 0.15);
+            background: rgba(212, 175, 55, 0.15);
             border-color: var(--cyan);
             color: var(--cyan);
             font-weight: 700;
-            box-shadow: 0 0 12px rgba(100, 231, 243, 0.15);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.15);
         }
         .filter-count-badge {
             font-size: 11px;
@@ -400,7 +400,7 @@
             color: var(--muted);
         }
         .filter-item-link.active .filter-count-badge {
-            background: rgba(100, 231, 243, 0.25);
+            background: rgba(212, 175, 55, 0.25);
             color: var(--cyan);
         }
 
@@ -408,8 +408,8 @@
             margin-top: 24px;
             padding: 16px;
             border-radius: 12px;
-            background: linear-gradient(135deg, rgba(14, 45, 68, 0.4), rgba(6, 20, 31, 0.8));
-            border: 1px solid rgba(100, 231, 243, 0.15);
+            background: linear-gradient(135deg, rgba(24, 24, 30, 0.8), rgba(14, 14, 18, 0.95));
+            border: 1px solid rgba(212, 175, 55, 0.18);
         }
         .assurance-title {
             font-size: 11.5px;
@@ -421,7 +421,7 @@
         }
         .assurance-desc {
             font-size: 11.5px;
-            color: #92abb9;
+            color: #9c9ca4;
             line-height: 1.5;
         }
 
@@ -439,8 +439,8 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            background: rgba(9, 27, 41, 0.65);
-            border: 1px solid rgba(100, 231, 243, 0.18);
+            background: rgba(18, 18, 22, 0.65);
+            border: 1px solid rgba(212, 175, 55, 0.18);
             border-radius: 16px;
             padding: 14px 18px;
             backdrop-filter: blur(12px);
@@ -458,8 +458,8 @@
             width: 100%;
             padding: 13px 18px 13px 44px;
             border-radius: 10px;
-            border: 1px solid rgba(100, 231, 243, 0.2);
-            background: rgba(4, 12, 20, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(8, 8, 10, 0.85);
             color: var(--white);
             font-size: 14px;
             outline: none;
@@ -467,7 +467,7 @@
         }
         .search-input-wrap input:focus {
             border-color: var(--cyan);
-            box-shadow: 0 0 16px rgba(100, 231, 243, 0.2);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
         }
         .search-icon {
             position: absolute;
@@ -495,8 +495,8 @@
             gap: 12px;
             padding: 13px 18px;
             border-radius: 10px;
-            border: 1px solid rgba(100, 231, 243, 0.2);
-            background: rgba(4, 12, 20, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(8, 8, 10, 0.85);
             color: var(--white);
             font-size: 13.5px;
             font-weight: 600;
@@ -509,8 +509,8 @@
         .custom-dropdown-trigger:hover,
         .custom-dropdown.open .custom-dropdown-trigger {
             border-color: var(--cyan);
-            background: rgba(6, 17, 27, 0.95);
-            box-shadow: 0 0 16px rgba(100, 231, 243, 0.2);
+            background: rgba(14, 14, 18, 0.95);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
         }
         .custom-dropdown-arrow {
             display: inline-flex;
@@ -529,12 +529,12 @@
             right: 0;
             width: 100%;
             min-width: 220px;
-            background: rgba(6, 17, 27, 0.96);
+            background: rgba(14, 14, 18, 0.96);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(100, 231, 243, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             border-radius: 12px;
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(100, 231, 243, 0.08);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.08);
             padding: 6px;
             list-style: none;
             opacity: 0;
@@ -556,17 +556,17 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
-            color: #d1e2e9;
+            color: #e2e2e7;
             cursor: pointer;
             transition: all 0.2s ease;
         }
         .custom-dropdown-item:hover {
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
             color: var(--cyan);
             transform: translateX(3px);
         }
         .custom-dropdown-item.active {
-            background: rgba(100, 231, 243, 0.18);
+            background: rgba(212, 175, 55, 0.18);
             color: var(--white);
             font-weight: 700;
         }
@@ -601,8 +601,8 @@
             align-items: center;
             gap: 6px;
             padding: 5px 12px;
-            background: rgba(100, 231, 243, 0.12);
-            border: 1px solid rgba(100, 231, 243, 0.3);
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 100px;
             color: var(--cyan);
             font-size: 12px;
@@ -637,13 +637,13 @@
         .product-card:hover {
             transform: translateY(-8px);
             border-color: var(--border-glow);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(100, 231, 243, 0.12);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.12);
         }
         .product-media {
             height: 230px;
             position: relative;
             overflow: hidden;
-            background: #071520;
+            background: #141418;
         }
         .product-media img {
             width: 100%;
@@ -672,9 +672,9 @@
             backdrop-filter: blur(8px);
         }
         .badge-available {
-            background: rgba(14, 53, 40, 0.85);
-            border: 1px solid rgba(80, 227, 194, 0.3);
-            color: #50e3c2;
+            background: rgba(16, 32, 22, 0.9);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            color: #34d399;
         }
         .badge-reserved {
             background: rgba(60, 40, 10, 0.85);
@@ -687,8 +687,8 @@
             color: #eb5757;
         }
         .badge-featured {
-            background: rgba(6, 19, 31, 0.85);
-            border: 1px solid rgba(100, 231, 243, 0.3);
+            background: rgba(26, 22, 14, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.35);
             color: var(--cyan);
         }
 
@@ -715,7 +715,7 @@
         }
         .product-vin {
             font-size: 11px;
-            color: #637d8e;
+            color: #8c8c94;
             font-family: monospace;
             margin-bottom: 14px;
         }
@@ -742,7 +742,7 @@
         }
         .spec-v {
             font-weight: 600;
-            color: #d8e8f0;
+            color: #e2e2e7;
             margin-top: 2px;
         }
 
@@ -775,8 +775,8 @@
         .empty-showroom {
             text-align: center;
             padding: 80px 20px;
-            background: rgba(9, 27, 41, 0.4);
-            border: 1px dashed rgba(100, 231, 243, 0.2);
+            background: rgba(18, 18, 22, 0.4);
+            border: 1px dashed rgba(212, 175, 55, 0.2);
             border-radius: 20px;
             grid-column: 1 / -1;
         }
@@ -794,7 +794,7 @@
         /* Site Footer */
         .site-footer {
             background: #03080e;
-            border-top: 1px solid rgba(100, 231, 243, 0.1);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding: 60px 0 30px;
             color: var(--muted);
             font-size: 13px;
@@ -824,7 +824,7 @@
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
             <a href="/" class="logo-wrap" title="Noblesse Motor Cars Home">
-                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem">
+                <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse Emblem" class="logo-emblem">
                 <div class="logo-text">
                     <span class="logo-title">NOBLESSE</span>
                     <span class="logo-tag">Motor Cars</span>
@@ -1071,7 +1071,7 @@
                                 {% if cover %}
                                     <img src="{{ cover.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" loading="lazy" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
                                 {% else %}
-                                    <div style="display:grid;place-items:center;height:100%;background:#091e2b;color:var(--cyan);font-weight:800;font-size:42px;">
+                                    <div style="display:grid;place-items:center;height:100%;background:#141418;color:var(--cyan);font-weight:800;font-size:42px;">
                                         {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
                                     </div>
                                 {% endif %}
@@ -1138,7 +1138,7 @@
     <footer class="site-footer">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
             <div style="display:flex; align-items:center; gap:12px;">
-                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:30px; height:30px;">
+                <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse" style="width:30px; height:30px;">
                 <span style="font-size:13px; font-weight:700; letter-spacing:0.18em; color:var(--white);">NOBLESSE MOTOR CARS</span>
             </div>
             <div>

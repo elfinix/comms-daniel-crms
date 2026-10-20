@@ -7,8 +7,8 @@
     <title>{{ vehicle.year }} {{ vehicle.display_name }} | {{ settings.dealership_name|default:"Noblesse Motor Cars" }}</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}?v=gold2">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}?v=gold2">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,16 +20,16 @@
 
     <style>
         :root {
-            --bg-deep: #040c14;
-            --bg-card: #091b29;
-            --bg-card-hover: #0e293e;
-            --border-subtle: rgba(100, 231, 243, 0.14);
-            --border-glow: rgba(100, 231, 243, 0.35);
-            --cyan: #64e7f3;
-            --cyan-dim: #268da0;
-            --cyan-glow: rgba(100, 231, 243, 0.25);
-            --silver: #d1e2e9;
-            --muted: #829aa8;
+            --bg-deep: #08080a;
+            --bg-card: #121215;
+            --bg-card-hover: #1a1a20;
+            --border-subtle: rgba(212, 175, 55, 0.14);
+            --border-glow: rgba(212, 175, 55, 0.35);
+            --cyan: #d4af37;
+            --cyan-dim: #9e7a2b;
+            --cyan-glow: rgba(212, 175, 55, 0.25);
+            --silver: #e2e2e7;
+            --muted: #9c9ca4;
             --white: #ffffff;
             --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-display: 'Cinzel', serif;
@@ -54,11 +54,11 @@
         /* Custom Luxury Scrollbar matching landing and showroom */
         html {
             scrollbar-width: thin;
-            scrollbar-color: #16364b var(--bg-deep);
+            scrollbar-color: #26231c var(--bg-deep);
         }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #26231c; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
         
         body {
@@ -117,23 +117,23 @@
         }
         .btn-primary {
             background: var(--cyan);
-            color: #04101a;
-            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.28);
+            color: #08080a;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.28);
         }
         .btn-primary:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(100, 231, 243, 0.45);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.45);
         }
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             color: var(--white);
-            border-color: rgba(100, 231, 243, 0.25);
+            border-color: rgba(212, 175, 55, 0.25);
             backdrop-filter: blur(10px);
         }
         .btn-secondary:hover {
             border-color: var(--cyan);
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
             transform: translateY(-2px);
             color: var(--cyan);
         }
@@ -158,21 +158,21 @@
             margin: 0 auto;
             height: 64px;
             padding: 0 20px 0 16px;
-            background: rgba(6, 17, 27, 0.84);
+            background: rgba(14, 14, 18, 0.84);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(100, 231, 243, 0.16);
+            border: 1px solid rgba(212, 175, 55, 0.16);
             border-radius: 100px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 175, 55, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .site-header.scrolled .header-inner {
-            background: rgba(4, 12, 20, 0.94);
-            border-color: rgba(100, 231, 243, 0.22);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(100, 231, 243, 0.14);
+            background: rgba(8, 8, 10, 0.94);
+            border-color: rgba(212, 175, 55, 0.22);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.14);
         }
         .logo-wrap {
             display: flex;
@@ -183,7 +183,7 @@
         .logo-emblem {
             width: 34px;
             height: 34px;
-            filter: drop-shadow(0 0 8px rgba(100, 231, 243, 0.35));
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
             transition: transform 0.3s ease;
         }
         .logo-wrap:hover .logo-emblem {
@@ -226,7 +226,7 @@
         }
         .nav-links a:hover, .nav-links a.active {
             color: var(--white);
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
         }
 
         .header-actions {
@@ -247,7 +247,7 @@
         }
         .header-action-link:hover {
             color: var(--cyan);
-            background: rgba(100, 231, 243, 0.08);
+            background: rgba(212, 175, 55, 0.08);
         }
         .header-divider {
             width: 1px;
@@ -258,9 +258,9 @@
         /* Detail Hero Section */
         .detail-hero {
             padding: 120px 0 28px;
-            background: radial-gradient(circle at 85% 15%, rgba(28, 96, 113, 0.25) 0%, transparent 45%),
-                        linear-gradient(180deg, #040c14 0%, #061523 100%);
-            border-bottom: 1px solid rgba(100, 231, 243, 0.1);
+            background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.25) 0%, transparent 45%),
+                        linear-gradient(180deg, #08080a 0%, #0e0e12 100%);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
             position: relative;
         }
         .detail-header-top {
@@ -292,9 +292,9 @@
             border: 1px solid rgba(251, 146, 60, 0.35);
         }
         .badge-featured {
-            background: rgba(100, 231, 243, 0.15);
+            background: rgba(212, 175, 55, 0.15);
             color: var(--cyan);
-            border: 1px solid rgba(100, 231, 243, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.4);
         }
         .badge-certified {
             background: rgba(255, 255, 255, 0.06);
@@ -333,8 +333,8 @@
             gap: 8px;
             padding: 8px 18px;
             border-radius: 100px;
-            background: rgba(9, 27, 41, 0.6);
-            border: 1px solid rgba(100, 231, 243, 0.18);
+            background: rgba(18, 18, 22, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.18);
             color: var(--silver);
             font-size: 12.5px;
             font-weight: 600;
@@ -344,13 +344,13 @@
         .back-pill-btn:hover {
             color: var(--cyan);
             border-color: var(--cyan);
-            background: rgba(100, 231, 243, 0.1);
+            background: rgba(212, 175, 55, 0.1);
             transform: translateX(-3px);
         }
         .vin-tag {
             font-family: monospace;
             font-size: 12px;
-            color: #637d8e;
+            color: #8c8c94;
             letter-spacing: 0.08em;
         }
 
@@ -375,9 +375,9 @@
             height: 480px;
             overflow: hidden;
             border-radius: 24px;
-            background: radial-gradient(circle at 50% 50%, #0d2334 0%, #05101a 100%);
-            border: 1px solid rgba(100, 231, 243, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(100, 231, 243, 0.08);
+            background: radial-gradient(circle at 50% 50%, #141418 0%, #09090b 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(212, 175, 55, 0.08);
         }
         .main-stage img {
             width: 100%;
@@ -395,7 +395,7 @@
             font-weight: 900;
             letter-spacing: 4px;
             color: var(--cyan);
-            background: linear-gradient(145deg, #102736, #07151f);
+            background: linear-gradient(145deg, #141418, #09090b);
         }
         .thumb-strip {
             display: flex;
@@ -403,17 +403,17 @@
             overflow-x: auto;
             padding: 4px 2px 8px;
             scrollbar-width: thin;
-            scrollbar-color: #16364b transparent;
+            scrollbar-color: #26231c transparent;
         }
         .thumb-strip::-webkit-scrollbar { height: 4px; }
-        .thumb-strip::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        .thumb-strip::-webkit-scrollbar-thumb { background: #26231c; border-radius: 4px; }
         .thumb-item {
             flex: 0 0 110px;
             height: 76px;
             border-radius: 14px;
             overflow: hidden;
-            border: 2px solid rgba(100, 231, 243, 0.15);
-            background: #07151f;
+            border: 2px solid rgba(212, 175, 55, 0.15);
+            background: #09090b;
             cursor: pointer;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
             transition: all 0.25s ease;
@@ -427,12 +427,12 @@
         .thumb-item:hover, .thumb-item.active {
             border-color: var(--cyan);
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(100, 231, 243, 0.25);
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.25);
         }
 
         /* Right Specs & Action Panel */
         .detail-panel {
-            background: rgba(9, 27, 41, 0.72);
+            background: rgba(18, 18, 22, 0.72);
             border: 1px solid var(--border-subtle);
             border-radius: 24px;
             padding: 36px;
@@ -450,12 +450,12 @@
         .spec-card {
             padding: 14px 18px;
             border-radius: 14px;
-            background: rgba(4, 12, 20, 0.65);
-            border: 1px solid rgba(100, 231, 243, 0.12);
+            background: rgba(8, 8, 10, 0.65);
+            border: 1px solid rgba(212, 175, 55, 0.12);
             transition: border-color 0.25s ease;
         }
         .spec-card:hover {
-            border-color: rgba(100, 231, 243, 0.3);
+            border-color: rgba(212, 175, 55, 0.3);
         }
         .spec-label {
             display: block;
@@ -476,8 +476,8 @@
         /* Price Box */
         .price-box {
             padding: 22px;
-            background: rgba(4, 12, 20, 0.8);
-            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: rgba(8, 8, 10, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 16px;
             margin-bottom: 24px;
         }
@@ -498,10 +498,10 @@
             font-size: 10px;
             font-weight: 700;
             color: var(--cyan);
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
             padding: 3px 8px;
             border-radius: 100px;
-            border: 1px solid rgba(100, 231, 243, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.25);
         }
         .price-amount {
             font-size: clamp(34px, 3.8vw, 44px);
@@ -518,7 +518,7 @@
 
         /* Gallery Narrative Card (Below Gallery) */
         .gallery-narrative-card {
-            background: rgba(9, 27, 41, 0.72);
+            background: rgba(18, 18, 22, 0.72);
             border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 28px 30px;
@@ -539,7 +539,7 @@
         }
         .vehicle-description {
             font-size: 14px;
-            color: #b8ccd8;
+            color: #c8c8d0;
             line-height: 1.8;
             white-space: pre-line;
         }
@@ -575,8 +575,8 @@
         /* Related Vehicles Section */
         .related-section {
             padding: 60px 0 90px;
-            border-top: 1px solid rgba(100, 231, 243, 0.1);
-            background: linear-gradient(180deg, transparent 0%, rgba(6, 21, 35, 0.4) 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            background: linear-gradient(180deg, transparent 0%, rgba(12, 12, 16, 0.6) 100%);
         }
         .related-header {
             display: flex;
@@ -615,7 +615,7 @@
             position: relative;
             height: 200px;
             overflow: hidden;
-            background: #040c14;
+            background: #08080a;
         }
         .related-media img {
             width: 100%;
@@ -693,7 +693,7 @@
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
             <a href="/" class="logo-wrap" title="Noblesse Motor Cars Home">
-                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem">
+                <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse Emblem" class="logo-emblem">
                 <div class="logo-text">
                     <span class="logo-title">NOBLESSE</span>
                     <span class="logo-tag">Motor Cars</span>
@@ -927,7 +927,7 @@
     <footer class="site-footer">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
             <div style="display:flex; align-items:center; gap:12px;">
-                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse" style="width:28px; height:28px;">
+                <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse" style="width:28px; height:28px;">
                 <span style="font-size:12.5px; font-weight:700; letter-spacing:0.18em; color:var(--white);">NOBLESSE MOTOR CARS</span>
             </div>
             <div>

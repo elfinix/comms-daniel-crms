@@ -7,8 +7,8 @@
     <title>{{ settings.dealership_name|default:"Noblesse Motor Cars" }} | Curated Luxury & Performance</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}?v=gold2">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}?v=gold2">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,16 +20,16 @@
 
     <style>
         :root {
-            --bg-deep: #040c14;
-            --bg-card: #091b29;
-            --bg-card-hover: #0e293e;
-            --border-subtle: rgba(100, 231, 243, 0.12);
-            --border-glow: rgba(100, 231, 243, 0.35);
-            --cyan: #64e7f3;
-            --cyan-dim: #268da0;
-            --cyan-glow: rgba(100, 231, 243, 0.25);
-            --silver: #d1e2e9;
-            --muted: #829aa8;
+            --bg-deep: #08080a;
+            --bg-card: #121215;
+            --bg-card-hover: #1a1a20;
+            --border-subtle: rgba(212, 175, 55, 0.12);
+            --border-glow: rgba(212, 175, 55, 0.35);
+            --cyan: #d4af37;
+            --cyan-dim: #9e7a2b;
+            --cyan-glow: rgba(212, 175, 55, 0.25);
+            --silver: #e2e2e7;
+            --muted: #9c9ca4;
             --white: #ffffff;
             --gold: #d4af37;
             --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -67,7 +67,7 @@
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: #16364b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #26231c; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--cyan-dim); }
 
         /* Typography & Utilities */
@@ -150,13 +150,13 @@
         }
         .btn-primary {
             background: var(--cyan);
-            color: #04101a;
-            box-shadow: 0 4px 24px rgba(100, 231, 243, 0.28);
+            color: #08080a;
+            box-shadow: 0 4px 24px rgba(212, 175, 55, 0.28);
         }
         .btn-primary:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(100, 231, 243, 0.45);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.45);
         }
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
@@ -177,7 +177,7 @@
         }
         .btn-outline:hover {
             border-color: var(--cyan);
-            background: rgba(100, 231, 243, 0.08);
+            background: rgba(212, 175, 55, 0.08);
             transform: translateY(-2px);
         }
 
@@ -201,21 +201,21 @@
             margin: 0 auto;
             height: 64px;
             padding: 0 20px 0 16px;
-            background: rgba(6, 17, 27, 0.84);
+            background: rgba(14, 14, 18, 0.84);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(100, 231, 243, 0.16);
+            border: 1px solid rgba(212, 175, 55, 0.16);
             border-radius: 100px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(100, 231, 243, 0.08);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 175, 55, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .site-header.scrolled .header-inner {
-            background: rgba(4, 12, 20, 0.94);
-            border-color: rgba(100, 231, 243, 0.22);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(100, 231, 243, 0.14);
+            background: rgba(8, 8, 10, 0.94);
+            border-color: rgba(212, 175, 55, 0.22);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.14);
         }
         .logo-wrap {
             display: flex;
@@ -226,7 +226,7 @@
         .logo-emblem {
             width: 34px;
             height: 34px;
-            filter: drop-shadow(0 0 8px rgba(100, 231, 243, 0.35));
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.35));
             transition: transform 0.3s ease;
         }
         .logo-wrap:hover .logo-emblem {
@@ -261,7 +261,7 @@
         .nav-links a {
             font-size: 13px;
             font-weight: 500;
-            color: #9cb1bf;
+            color: #9c9ca4;
             letter-spacing: 0.03em;
             padding: 7px 14px;
             border-radius: 100px;
@@ -269,11 +269,11 @@
         }
         .nav-links a:hover {
             color: var(--white);
-            background: rgba(100, 231, 243, 0.08);
+            background: rgba(212, 175, 55, 0.08);
         }
         .nav-links a.active {
             color: var(--cyan);
-            background: rgba(100, 231, 243, 0.12);
+            background: rgba(212, 175, 55, 0.12);
             font-weight: 600;
         }
 
@@ -285,7 +285,7 @@
         .header-action-link {
             font-size: 12.5px;
             font-weight: 600;
-            color: #b8cdd9;
+            color: #c4c4cc;
             padding: 6px 12px;
             display: inline-flex;
             align-items: center;
@@ -299,7 +299,7 @@
         .header-divider {
             width: 1px;
             height: 18px;
-            background: rgba(100, 231, 243, 0.18);
+            background: rgba(212, 175, 55, 0.18);
         }
         .header-btn-primary {
             padding: 8px 18px;
@@ -308,17 +308,17 @@
             font-weight: 700;
             letter-spacing: 0.04em;
             background: var(--cyan);
-            color: #04101a;
-            box-shadow: 0 4px 16px rgba(100, 231, 243, 0.25);
+            color: #08080a;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
             transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
         .header-btn-primary:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(100, 231, 243, 0.4);
+            box-shadow: 0 6px 22px rgba(212, 175, 55, 0.4);
         }
 
         /* SECTION 2: HERO */
@@ -328,9 +328,9 @@
             display: flex;
             align-items: center;
             padding: 140px 0 80px;
-            background: radial-gradient(circle at 82% 28%, rgba(28, 96, 113, 0.35) 0%, transparent 45%),
-                        radial-gradient(circle at 15% 80%, rgba(14, 41, 62, 0.45) 0%, transparent 50%),
-                        linear-gradient(180deg, #040c14 0%, #061523 100%);
+            background: radial-gradient(circle at 82% 28%, rgba(212, 175, 55, 0.35) 0%, transparent 45%),
+                        radial-gradient(circle at 15% 80%, rgba(30, 26, 18, 0.45) 0%, transparent 50%),
+                        linear-gradient(180deg, #08080a 0%, #0e0e12 100%);
             overflow: hidden;
         }
         .hero-glow-orb {
@@ -340,7 +340,7 @@
             width: 550px;
             height: 550px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(100, 231, 243, 0.12) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
             filter: blur(60px);
             pointer-events: none;
             animation: pulseGlow 8s infinite alternate ease-in-out;
@@ -363,8 +363,8 @@
             align-items: center;
             gap: 10px;
             padding: 6px 14px;
-            background: rgba(100, 231, 243, 0.08);
-            border: 1px solid rgba(100, 231, 243, 0.25);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             border-radius: 100px;
             color: var(--cyan);
             font-size: 11.5px;
@@ -390,14 +390,14 @@
         }
         .hero-title span.accent {
             color: var(--cyan);
-            background: linear-gradient(135deg, #64e7f3 20%, #ffffff 100%);
+            background: linear-gradient(135deg, #d4af37 20%, #ffffff 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero-description {
             font-size: 17.5px;
-            color: #b0c6d2;
+            color: #c8c8d0;
             line-height: 1.75;
             max-width: 580px;
             margin-bottom: 36px;
@@ -414,7 +414,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
             padding-top: 32px;
-            border-top: 1px solid rgba(100, 231, 243, 0.12);
+            border-top: 1px solid rgba(212, 175, 55, 0.12);
         }
         .hero-stat-item .num {
             font-size: 28px;
@@ -438,9 +438,9 @@
             position: relative;
             border-radius: 24px;
             overflow: hidden;
-            background: linear-gradient(145deg, #0b2234, #05121c);
-            border: 1px solid rgba(100, 231, 243, 0.2);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(100, 231, 243, 0.15);
+            background: linear-gradient(145deg, #16161a, #0a0a0c);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.15);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .hero-visual-card:hover {
@@ -464,9 +464,9 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(4, 12, 20, 0.85);
+            background: rgba(8, 8, 10, 0.85);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(100, 231, 243, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--cyan);
             font-size: 11px;
             font-weight: 800;
@@ -480,8 +480,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(9, 27, 41, 0.95);
-            border-top: 1px solid rgba(100, 231, 243, 0.1);
+            background: rgba(18, 18, 22, 0.95);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
         }
         .hero-visual-title {
             font-size: 20px;
@@ -510,7 +510,7 @@
         /* SECTION 3: NEWEST LISTINGS */
         .section-listings {
             padding: 120px 0;
-            background: #050e17;
+            background: #08080a;
             position: relative;
         }
         .listings-grid {
@@ -531,13 +531,13 @@
         .car-card:hover {
             transform: translateY(-8px);
             border-color: var(--border-glow);
-            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), 0 0 24px rgba(100, 231, 243, 0.12);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), 0 0 24px rgba(212, 175, 55, 0.12);
         }
         .car-thumb {
             height: 220px;
             position: relative;
             overflow: hidden;
-            background: #081622;
+            background: #141418;
         }
         .car-thumb img {
             width: 100%;
@@ -559,9 +559,9 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             backdrop-filter: blur(8px);
-            background: rgba(6, 19, 31, 0.85);
+            background: rgba(18, 18, 22, 0.85);
             color: var(--cyan);
-            border: 1px solid rgba(100, 231, 243, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.25);
         }
         .car-body {
             padding: 24px;
@@ -620,13 +620,13 @@
         /* SECTION 4 & 5: CATEGORIES */
         .section-categories {
             padding: 120px 0;
-            background: #040b12;
+            background: #08080a;
             position: relative;
         }
         .section-categories.alt {
-            background: #06111a;
-            border-top: 1px solid rgba(100, 231, 243, 0.08);
-            border-bottom: 1px solid rgba(100, 231, 243, 0.08);
+            background: #0d0d11;
+            border-top: 1px solid rgba(212, 175, 55, 0.08);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
         }
         .category-grid {
             display: grid;
@@ -649,7 +649,7 @@
         .category-card:hover {
             transform: translateY(-8px);
             border-color: var(--border-glow);
-            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(100, 231, 243, 0.15);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.15);
         }
         .category-bg {
             position: absolute;
@@ -671,7 +671,7 @@
             position: absolute;
             inset: 0;
             z-index: 2;
-            background: linear-gradient(180deg, rgba(4, 12, 20, 0.2) 0%, rgba(4, 12, 20, 0.92) 80%);
+            background: linear-gradient(180deg, rgba(8, 8, 10, 0.2) 0%, rgba(8, 8, 10, 0.92) 80%);
         }
         .category-content {
             position: relative;
@@ -682,8 +682,8 @@
             align-items: center;
             gap: 8px;
             padding: 5px 12px;
-            background: rgba(100, 231, 243, 0.15);
-            border: 1px solid rgba(100, 231, 243, 0.3);
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 100px;
             color: var(--cyan);
             font-size: 11px;
@@ -701,7 +701,7 @@
         }
         .category-desc {
             font-size: 13.5px;
-            color: #b5cad5;
+            color: #a4a4ac;
             line-height: 1.6;
             margin-bottom: 22px;
         }
@@ -717,13 +717,13 @@
         }
         .category-card:hover .category-link {
             gap: 14px;
-            color: #8cf0f9;
+            color: #fae392;
         }
 
         /* SECTION 6: ABOUT NOBLESSE MOTOR CARS */
         .section-about {
             padding: 130px 0;
-            background: #040c14;
+            background: #08080a;
             position: relative;
         }
         .about-grid {
@@ -741,7 +741,7 @@
         }
         .about-lead {
             font-size: 17px;
-            color: #c0d4df;
+            color: #d0d0d8;
             line-height: 1.8;
             margin-bottom: 36px;
         }
@@ -754,22 +754,22 @@
             display: flex;
             gap: 20px;
             padding: 20px;
-            background: rgba(9, 27, 41, 0.4);
-            border: 1px solid rgba(100, 231, 243, 0.1);
+            background: rgba(18, 18, 22, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.1);
             border-radius: 16px;
             transition: all 0.3s ease;
         }
         .feature-box:hover {
-            border-color: rgba(100, 231, 243, 0.3);
-            background: rgba(9, 27, 41, 0.8);
+            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(18, 18, 22, 0.8);
             transform: translateX(6px);
         }
         .feature-icon-wrap {
             width: 48px;
             height: 48px;
             border-radius: 12px;
-            background: rgba(100, 231, 243, 0.1);
-            border: 1px solid rgba(100, 231, 243, 0.25);
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             display: grid;
             place-items: center;
             color: var(--cyan);
@@ -789,11 +789,11 @@
         }
 
         .about-card-banner {
-            background: linear-gradient(145deg, #0a2133, #051420);
-            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: linear-gradient(145deg, #15151a 0%, #0c0c0f 100%);
+            border: 1px solid rgba(212, 175, 55, 0.22);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.08);
             position: relative;
             overflow: hidden;
         }
@@ -805,7 +805,7 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(100, 231, 243, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
         }
         .dealership-info-item {
             display: flex;
@@ -833,20 +833,20 @@
         /* SECTION 7: ABOUT THE DEVELOPER */
         .section-dev {
             padding: 120px 0;
-            background: #050f18;
-            border-top: 1px solid rgba(100, 231, 243, 0.08);
-            border-bottom: 1px solid rgba(100, 231, 243, 0.08);
+            background: #08080a;
+            border-top: 1px solid rgba(212, 175, 55, 0.08);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
         }
         .dev-wrapper {
-            background: linear-gradient(135deg, #091d2c 0%, #05111b 100%);
-            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: linear-gradient(135deg, #15151a 0%, #0a0a0d 100%);
+            border: 1px solid rgba(212, 175, 55, 0.22);
             border-radius: 28px;
             padding: 54px;
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 50px;
             align-items: center;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.06);
             position: relative;
             overflow: hidden;
         }
@@ -859,9 +859,9 @@
             height: 180px;
             margin: 0 auto 20px;
             border-radius: 24px;
-            background: radial-gradient(circle, #0e3047 0%, #061522 100%);
-            border: 2px solid var(--border-glow);
-            box-shadow: 0 10px 40px rgba(100, 231, 243, 0.2);
+            background: radial-gradient(circle, #1a1a22 0%, #0c0c10 100%);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.16);
             display: grid;
             place-items: center;
             position: relative;
@@ -869,7 +869,7 @@
         .dev-emblem-box img {
             width: 90px;
             height: 90px;
-            filter: drop-shadow(0 0 16px rgba(100, 231, 243, 0.5));
+            filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.5));
         }
         .dev-name {
             font-size: 20px;
@@ -892,7 +892,7 @@
         }
         .dev-bio p {
             font-size: 15px;
-            color: #b3c9d6;
+            color: #b0b0b8;
             line-height: 1.75;
             margin-bottom: 24px;
         }
@@ -903,8 +903,8 @@
         }
         .tech-pill {
             padding: 6px 14px;
-            background: rgba(100, 231, 243, 0.08);
-            border: 1px solid rgba(100, 231, 243, 0.2);
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 100px;
             font-size: 12px;
             font-weight: 600;
@@ -914,18 +914,18 @@
         /* SECTION 8: FINAL CTA BANNER */
         .section-cta-banner {
             padding: 120px 0;
-            background: #040c14;
+            background: #08080a;
             position: relative;
         }
         .cta-box {
             position: relative;
-            background: radial-gradient(circle at 50% 50%, #0d344b 0%, #051421 100%);
-            border: 1px solid rgba(100, 231, 243, 0.35);
+            background: radial-gradient(circle at 50% 50%, #181822 0%, #0a0a0d 100%);
+            border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 30px;
             padding: 80px 40px;
             text-align: center;
             overflow: hidden;
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 50px rgba(100, 231, 243, 0.15);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 50px rgba(212, 175, 55, 0.15);
         }
         .cta-box::before {
             content: "";
@@ -934,7 +934,7 @@
             left: 20%;
             width: 60%;
             height: 100%;
-            background: radial-gradient(circle, rgba(100, 231, 243, 0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, transparent 70%);
             pointer-events: none;
         }
         .cta-title {
@@ -951,7 +951,7 @@
             max-width: 650px;
             margin: 0 auto 36px;
             font-size: 17px;
-            color: #b8cfdb;
+            color: #c4c4cc;
             line-height: 1.7;
             position: relative;
             z-index: 2;
@@ -969,7 +969,7 @@
         /* SECTION 9: FOOTER */
         .site-footer {
             background: #03080e;
-            border-top: 1px solid rgba(100, 231, 243, 0.1);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
             padding: 80px 0 36px;
             color: var(--muted);
             font-size: 13.5px;
@@ -981,7 +981,7 @@
             margin-bottom: 60px;
         }
         .footer-brand p {
-            color: #92abb9;
+            color: #9c9ca4;
             margin-top: 16px;
             line-height: 1.7;
             max-width: 320px;
@@ -1001,7 +1001,7 @@
             gap: 12px;
         }
         .footer-links a {
-            color: #9cb1bf;
+            color: #9c9ca4;
         }
         .footer-links a:hover {
             color: var(--cyan);
@@ -1014,7 +1014,7 @@
             align-items: center;
             justify-content: space-between;
             font-size: 12.5px;
-            color: #6a808e;
+            color: #7a7a82;
             flex-wrap: wrap;
             gap: 16px;
         }
@@ -1044,7 +1044,7 @@
     <header class="site-header" id="siteHeader">
         <div class="header-inner">
             <a href="/" class="logo-wrap" title="Noblesse Motor Cars Home">
-                <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem">
+                <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse Emblem" class="logo-emblem">
                 <div class="logo-text">
                     <span class="logo-title">NOBLESSE</span>
                     <span class="logo-tag">Motor Cars</span>
@@ -1167,7 +1167,7 @@
                             {% if cover %}
                                 <img src="{{ cover.image.url }}" alt="{{ vehicle.year }} {{ vehicle.display_name }}" loading="lazy" onerror="this.onerror=null; this.src='/media/vehicles/2026/10/range-rover-autobiography.jpg';">
                             {% else %}
-                                <div style="display:grid;place-items:center;height:100%;background:#0c2333;color:var(--cyan);font-weight:800;font-size:36px;">
+                                <div style="display:grid;place-items:center;height:100%;background:#141418;color:var(--cyan);font-weight:800;font-size:36px;">
                                     {{ vehicle.make|slice:":1" }}{{ vehicle.model|slice:":1" }}
                                 </div>
                             {% endif %}
@@ -1351,7 +1351,7 @@
             <div class="dev-wrapper">
                 <div class="dev-avatar-wrap">
                     <div class="dev-emblem-box">
-                        <img src="{% static 'img/noblesse-logo.svg' %}" alt="Engineering Crest">
+                        <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Engineering Crest">
                     </div>
                     <div class="dev-name">Daniel John Villarmino</div>
                     <div class="dev-role">Systems Architect & Lead Developer</div>
@@ -1401,7 +1401,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo-wrap">
-                        <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Emblem" class="logo-emblem" style="width:36px;height:36px;">
+                        <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse Emblem" class="logo-emblem" style="width:36px;height:36px;">
                         <div class="logo-text">
                             <span class="logo-title" style="font-size:13px;">NOBLESSE MOTOR CARS</span>
                             <span class="logo-tag">Drive what moves you</span>
@@ -1433,8 +1433,8 @@
 
                 <div>
                     <h4 class="footer-col-title">Sanctuary Hours</h4>
-                    <p style="color:#8ba3b1; margin-bottom:12px; font-size:13px;">{{ settings.showroom_address|default:"29 Congressional Ave, Project 8, Quezon City, 1106 Metro Manila" }}</p>
-                    <p style="color:#8ba3b1; font-size:13px; line-height:1.6;">{{ settings.service_hours|default:"Mon - Sat: 9:00 AM - 7:00 PM (By Private Appointment)" }}</p>
+                    <p style="color:#9c9ca4; margin-bottom:12px; font-size:13px;">{{ settings.showroom_address|default:"29 Congressional Ave, Project 8, Quezon City, 1106 Metro Manila" }}</p>
+                    <p style="color:#9c9ca4; font-size:13px; line-height:1.6;">{{ settings.service_hours|default:"Mon - Sat: 9:00 AM - 7:00 PM (By Private Appointment)" }}</p>
                     <p style="margin-top:14px; color:var(--cyan); font-weight:700;">{{ settings.phone|default:"0985 123 8888" }}</p>
                 </div>
             </div>

@@ -5,23 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create Account | Noblesse Motor Cars</title>
-    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
-    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}?v=gold2">
+    <link rel="alternate icon" href="{% static 'img/favicon.svg' %}?v=gold2">
     <style>
         :root {
-            --bg-deep: #040c14;
-            --bg-card: #091b29;
-            --cyan: #64e7f3;
-            --cyan-glow: rgba(100, 231, 243, 0.25);
-            --border: rgba(100, 231, 243, 0.18);
-            --silver: #d1e2e9;
-            --muted: #829aa8;
+            --bg-deep: #08080a;
+            --bg-card: #121215;
+            --cyan: #d4af37;
+            --cyan-glow: rgba(212, 175, 55, 0.25);
+            --border: rgba(212, 175, 55, 0.18);
+            --silver: #e2e2e7;
+            --muted: #9c9ca4;
             --white: #ffffff;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at 50% 20%, rgba(28, 96, 113, 0.22) 0%, transparent 60%), var(--bg-deep);
+            background: radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.22) 0%, transparent 60%), var(--bg-deep);
             color: var(--silver);
             display: grid;
             place-items: center;
@@ -35,7 +35,7 @@
             border-radius: 20px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(100, 231, 243, 0.1);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(212, 175, 55, 0.1);
             text-align: center;
         }
         .brand-emblem {
@@ -67,14 +67,14 @@
             margin: 16px 0 6px;
             font-size: 12.5px;
             font-weight: 600;
-            color: #a5c3cf;
+            color: #9c9ca4;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
         input[type=text], input[type=password], input[type=email] {
             width: 100%;
             padding: 13px 16px;
-            background: rgba(4, 12, 20, 0.85);
+            background: rgba(8, 8, 10, 0.85);
             border: 1px solid var(--border);
             border-radius: 9px;
             color: #fff;
@@ -84,11 +84,11 @@
         }
         input:focus {
             border-color: var(--cyan);
-            box-shadow: 0 0 12px rgba(100, 231, 243, 0.2);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
         }
         .helptext {
             font-size: 11px;
-            color: #78909f;
+            color: #9c9ca4;
             display: block;
             margin-top: 4px;
             line-height: 1.4;
@@ -101,18 +101,18 @@
             border: 0;
             border-radius: 9px;
             background: var(--cyan);
-            color: #04101a;
+            color: #08080a;
             font-weight: 800;
             font-size: 14.5px;
             letter-spacing: 0.02em;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(100, 231, 243, 0.25);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
             transition: all 0.25s ease;
         }
         .button:hover {
-            background: #8cf0f9;
+            background: #fae392;
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(100, 231, 243, 0.4);
+            box-shadow: 0 8px 28px rgba(212, 175, 55, 0.4);
         }
         .foot {
             margin-top: 26px;
@@ -134,7 +134,7 @@
 <body>
     <div class="card">
         <a href="/">
-            <img src="{% static 'img/noblesse-logo.svg' %}" alt="Noblesse Motor Cars Emblem" class="brand-emblem">
+            <img src="{% static 'img/noblesse-logo.svg' %}?v=gold2" alt="Noblesse Motor Cars Emblem" class="brand-emblem">
         </a>
         <div class="eyebrow">Noblesse Motor Cars · VIP Onboarding</div>
         <h1>Create Client Account</h1>
