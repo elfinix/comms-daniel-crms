@@ -33,6 +33,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.vercel/
+
 
 # Fixtures
 inventory_data.json
