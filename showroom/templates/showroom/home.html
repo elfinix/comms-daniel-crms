@@ -1140,7 +1140,7 @@
                         <div class="hero-visual-meta">{% if hero_car.body_style and hero_car.body_style != hero_car.year|stringformat:"s" %}{{ hero_car.body_style }} · {% endif %}{{ hero_car.clean_fuel_type }} · {{ hero_car.mileage|intcomma }} km</div>
                     </div>
                     <div class="hero-visual-price">
-                        ${{ hero_car.price|intcomma }}
+                        ₱{{ hero_car.price|intcomma }}
                         <span>Clear Price</span>
                     </div>
                 </div>
@@ -1186,7 +1186,7 @@
                             <span class="car-spec-tag">📍 {{ vehicle.mileage|intcomma }} km</span>
                         </div>
                         <div class="car-foot">
-                            <div class="car-price">${{ vehicle.price|intcomma }}</div>
+                            <div class="car-price">₱{{ vehicle.price|intcomma }}</div>
                             <a href="/vehicle/{{ vehicle.id }}/" class="btn btn-outline car-btn">Specifications →</a>
                         </div>
                     </div>

@@ -835,7 +835,7 @@
                         <span class="price-label">Transparent Single-Price</span>
                         <span class="price-guarantee-pill">Guaranteed Price</span>
                     </div>
-                    <div class="price-amount">${{ vehicle.price|floatformat:0|intcomma }}</div>
+                    <div class="price-amount">₱{{ vehicle.price|floatformat:0|intcomma }}</div>
                     <div class="price-financing-sub">
                         Tier-1 bespoke financing available at {{ settings.financing_rate_teaser|default:"3.99% APR" }} with zero hidden dealer premiums.
                     </div>
@@ -912,7 +912,7 @@
                         <h3 class="related-vehicle-title">{{ item.year }} {{ item.display_name }}</h3>
                         <div class="related-vehicle-sub">{{ item.body_style }} · ⚡ {{ item.clean_fuel_type }}</div>
                         <div class="related-action-row">
-                            <span class="related-price">${{ item.price|floatformat:0|intcomma }}</span>
+                            <span class="related-price">₱{{ item.price|floatformat:0|intcomma }}</span>
                             <a href="/vehicle/{{ item.id }}/" class="btn btn-primary" style="padding:8px 16px; font-size:12.5px;">Inspect Details</a>
                         </div>
                     </div>

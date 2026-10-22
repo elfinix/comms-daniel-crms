@@ -50,8 +50,8 @@
                     <div class="card">
                         <div class="tag">{{ item.vehicle.year }} · {{ item.vehicle.status }}</div>
                         <h3>{{ item.vehicle.make }} {{ item.vehicle.model }}</h3>
-                        <p>${{ item.vehicle.price|floatformat:0 }} · {{ item.vehicle.mileage }} km</p>
-                        <a href="/vehicle/{{ item.vehicle.id }}/" style="color:#9e7a2b;font-weight:bold;text-decoration:none;">View vehicle →</a>
+                        <p>₱{{ item.vehicle.price|floatformat:0|intcomma }} · {{ item.vehicle.mileage }} km</p>
+                        <a href="/vehicle/{{ item.vehicle.id }}/" style="color:#d4af37;font-weight:bold;text-decoration:none;">View vehicle →</a>
                     </div>
                     {% endfor %}
                 </div>
