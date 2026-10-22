@@ -802,19 +802,117 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .showroom-layout { grid-template-columns: 1fr; }
-            .showroom-sidebar { position: static; margin-bottom: 10px; }
+            .showroom-layout { grid-template-columns: 1fr; gap: 20px; }
+            .showroom-sidebar {
+                position: static;
+                margin-bottom: 16px;
+                padding: 16px 20px;
+            }
+            .sidebar-header {
+                cursor: pointer;
+                user-select: none;
+                margin-bottom: 0;
+            }
+            .sidebar-chevron {
+                display: inline-block;
+                transition: transform 0.3s ease;
+                font-size: 14px;
+                color: var(--cyan);
+            }
+            .showroom-sidebar.open .sidebar-chevron {
+                transform: rotate(180deg);
+            }
+            .sidebar-collapsible {
+                display: none;
+                margin-top: 16px;
+            }
+            .showroom-sidebar.open .sidebar-collapsible {
+                display: block;
+            }
+            .active-filter-indicator {
+                font-size: 10px;
+                background: rgba(212, 175, 55, 0.2);
+                color: var(--cyan);
+                padding: 2px 8px;
+                border-radius: 100px;
+                margin-left: 6px;
+            }
             .filter-list { flex-direction: row; flex-wrap: wrap; }
             .filter-item-link { flex: 1 1 calc(50% - 6px); }
         }
+        @media (min-width: 1025px) {
+            .sidebar-chevron, .active-filter-indicator { display: none; }
+            .sidebar-collapsible { display: block !important; }
+        }
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .site-header { padding: 10px 12px; }
-            .header-inner { height: 54px; padding: 0 12px; }
-            .search-sort-bar { flex-direction: column; }
-            .custom-dropdown, .custom-dropdown-trigger { width: 100%; }
+            .site-header {
+                position: sticky;
+                top: 0;
+                padding: 0;
+                background: rgba(8, 8, 10, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            }
+            .header-inner {
+                height: 56px;
+                padding: 0 16px;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .logo-title { font-size: 12px; letter-spacing: 0.18em; }
+            .logo-tag { font-size: 7px; }
+            .showroom-hero { padding: 40px 0 24px; }
+            .showroom-title { font-size: 26px; }
+            .search-sort-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .search-input-wrap {
+                width: 100%;
+                flex: none;
+            }
+            .search-input-wrap input {
+                width: 100%;
+                box-sizing: border-box;
+                height: 48px;
+            }
+            .custom-dropdown {
+                width: 100%;
+                min-width: 0;
+            }
+            .custom-dropdown-trigger {
+                width: 100%;
+                box-sizing: border-box;
+                height: 48px;
+            }
+            .search-submit-btn {
+                width: 100% !important;
+                box-sizing: border-box;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 700;
+            }
             .product-grid { grid-template-columns: 1fr; }
             .filter-item-link { flex: 1 1 100%; }
+            .product-action-row { flex-wrap: wrap; gap: 10px; }
+            .product-price { font-size: 20px; }
+            .product-action-row .btn { padding: 9px 15px; font-size: 12px; white-space: nowrap; }
+        }
+        @media (max-width: 480px) {
+            .header-action-link span { display: none; }
+            .header-action-link { padding: 6px; }
         }
     </style>
 </head>
@@ -879,87 +977,95 @@
         <div class="showroom-layout">
             
             <!-- LEFT SIDEBAR: FILTERS -->
-            <aside class="showroom-sidebar">
-                <div class="sidebar-header">
+            <aside class="showroom-sidebar {% if selected_body_style and selected_body_style != 'all' or selected_fuel_type and selected_fuel_type != 'all' or query %}open{% endif %}" id="showroomSidebar">
+                <div class="sidebar-header" onclick="document.getElementById('showroomSidebar').classList.toggle('open');">
                     <div class="sidebar-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                         <span>Filters</span>
+                        {% if selected_body_style and selected_body_style != 'all' or selected_fuel_type and selected_fuel_type != 'all' %}
+                            <span class="active-filter-indicator">Filtered</span>
+                        {% endif %}
                     </div>
-                    {% if query or selected_body_style or selected_fuel_type or selected_status != "available" %}
-                        <a href="/inventory/" class="sidebar-reset">Reset All</a>
-                    {% endif %}
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        {% if query or selected_body_style or selected_fuel_type or selected_status != "available" %}
+                            <a href="/inventory/" class="sidebar-reset" onclick="event.stopPropagation();">Reset</a>
+                        {% endif %}
+                        <span class="sidebar-chevron">▾</span>
+                    </div>
                 </div>
 
-                <!-- 1. Silhouette / Body Style -->
-                <div class="filter-section">
-                    <span class="filter-section-title">Silhouette</span>
-                    <ul class="filter-list">
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style=all" 
-                               class="filter-item-link {% if not selected_body_style or selected_body_style == 'all' %}active{% endif %}">
-                                <span>All Silhouettes</span>
-                                <span class="filter-count-badge">{{ total_inventory }}</span>
-                            </a>
-                        </li>
-                        {% for style in available_styles %}
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style={{ style.name }}" 
-                               class="filter-item-link {% if selected_body_style == style.name %}active{% endif %}">
-                                <span>{{ style.name }}</span>
-                                <span class="filter-count-badge">{{ style.count }}</span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                <div class="sidebar-collapsible" id="sidebarCollapsible">
+                    <!-- 1. Silhouette / Body Style -->
+                    <div class="filter-section">
+                        <span class="filter-section-title">Silhouette</span>
+                        <ul class="filter-list">
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style=all" 
+                                   class="filter-item-link {% if not selected_body_style or selected_body_style == 'all' %}active{% endif %}">
+                                    <span>All Silhouettes</span>
+                                    <span class="filter-count-badge">{{ total_inventory }}</span>
+                                </a>
+                            </li>
+                            {% for style in available_styles %}
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}body_style={{ style.name }}" 
+                                   class="filter-item-link {% if selected_body_style == style.name %}active{% endif %}">
+                                    <span>{{ style.name }}</span>
+                                    <span class="filter-count-badge">{{ style.count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                <!-- 2. Powertrain / Energy -->
-                <div class="filter-section">
-                    <span class="filter-section-title">Powertrain</span>
-                    <ul class="filter-list">
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type=all" 
-                               class="filter-item-link {% if not selected_fuel_type or selected_fuel_type == 'all' %}active{% endif %}">
-                                <span>All Powertrains</span>
-                                <span class="filter-count-badge">{{ total_inventory }}</span>
-                            </a>
-                        </li>
-                        {% for fuel in available_fuels %}
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type={{ fuel.name }}" 
-                               class="filter-item-link {% if selected_fuel_type == fuel.name %}active{% endif %}">
-                                <span>{{ fuel.name }}</span>
-                                <span class="filter-count-badge">{{ fuel.count }}</span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    <!-- 2. Powertrain / Energy -->
+                    <div class="filter-section">
+                        <span class="filter-section-title">Powertrain</span>
+                        <ul class="filter-list">
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type=all" 
+                                   class="filter-item-link {% if not selected_fuel_type or selected_fuel_type == 'all' %}active{% endif %}">
+                                    <span>All Powertrains</span>
+                                    <span class="filter-count-badge">{{ total_inventory }}</span>
+                                </a>
+                            </li>
+                            {% for fuel in available_fuels %}
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}fuel_type={{ fuel.name }}" 
+                                   class="filter-item-link {% if selected_fuel_type == fuel.name %}active{% endif %}">
+                                    <span>{{ fuel.name }}</span>
+                                    <span class="filter-count-badge">{{ fuel.count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                <!-- 3. Availability Status -->
-                <div class="filter-section">
-                    <span class="filter-section-title">Availability</span>
-                    <ul class="filter-list">
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=available" 
-                               class="filter-item-link {% if selected_status == 'available' or not selected_status %}active{% endif %}">
-                                <span>Available in Vault</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=all" 
-                               class="filter-item-link {% if selected_status == 'all' %}active{% endif %}">
-                                <span>All Acquisition States</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- 3. Availability Status -->
+                    <div class="filter-section">
+                        <span class="filter-section-title">Availability</span>
+                        <ul class="filter-list">
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=available" 
+                                   class="filter-item-link {% if selected_status == 'available' or not selected_status %}active{% endif %}">
+                                    <span>Available in Vault</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_body_style %}body_style={{ selected_body_style }}&{% endif %}{% if selected_fuel_type %}fuel_type={{ selected_fuel_type }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}status=all" 
+                                   class="filter-item-link {% if selected_status == 'all' %}active{% endif %}">
+                                    <span>All Acquisition States</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Sidebar Dealership Assurance -->
-                <div class="sidebar-assurance-card">
-                    <div class="assurance-title">Noblesse Guarantee</div>
-                    <div class="assurance-desc">
-                        Every listing represents live inventory with transparent single-pricing and 250-point aerospace diagnostic approval.
+                    <!-- Sidebar Dealership Assurance -->
+                    <div class="sidebar-assurance-card">
+                        <div class="assurance-title">Noblesse Guarantee</div>
+                        <div class="assurance-desc">
+                            Every listing represents live inventory with transparent single-pricing and 250-point aerospace diagnostic approval.
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -1018,7 +1124,7 @@
                         </ul>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="padding:13px 22px;">Search</button>
+                    <button type="submit" class="btn btn-primary search-submit-btn">Search</button>
 
                     <!-- Retain Sidebar Filter parameters when searching/sorting -->
                     {% if selected_body_style and selected_body_style != 'all' %}
@@ -1088,7 +1194,7 @@
                         <div class="product-details">
                             <div class="product-eyebrow">{{ vehicle.year }} · {{ vehicle.body_style }}</div>
                             <h2 class="product-title">{{ vehicle.display_name }}</h2>
-                            <div class="product-vin">VIN: {{ vehicle.vin }}</div>
+                            {% if vehicle.vin %}<div class="product-vin">VIN: {{ vehicle.vin }}</div>{% endif %}
 
                             <div class="product-spec-grid">
                                 <div class="spec-item">

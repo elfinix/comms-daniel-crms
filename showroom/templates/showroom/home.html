@@ -1031,10 +1031,66 @@
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero-stats-row { grid-template-columns: 1fr; gap: 16px; }
+            .site-header {
+                position: sticky;
+                top: 0;
+                padding: 0;
+                background: rgba(8, 8, 10, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            }
+            .header-inner {
+                height: 56px;
+                padding: 0 16px;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .logo-title { font-size: 12px; letter-spacing: 0.18em; }
+            .logo-tag { font-size: 7px; }
+            .header-actions { gap: 6px; }
+            .hero-section { padding: 90px 0 50px; min-height: auto; }
+            .hero-title { font-size: clamp(28px, 7vw, 42px); line-height: 1.16; margin-bottom: 16px; }
+            .hero-description { font-size: 14px; margin-bottom: 24px; }
+            .hero-stats-row {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding-top: 24px;
+            }
+            .hero-stat-item .num { font-size: 20px; }
+            .hero-stat-item .label { font-size: 9.5px; letter-spacing: 0.04em; }
+            .car-foot { flex-wrap: wrap; gap: 8px; }
+            .car-price { font-size: 19px; }
+            .car-btn { font-size: 12px; padding: 7px 12px; }
             .footer-grid { grid-template-columns: 1fr; }
-            .site-header { padding: 10px 12px; }
-            .header-inner { height: 54px; padding: 0 12px; }
+            .section-cta-banner { padding: 40px 0; }
+            .cta-box { padding: 44px 20px; border-radius: 20px; }
+            .cta-title { font-size: clamp(24px, 6.2vw, 36px); line-height: 1.2; margin-bottom: 14px; }
+            .cta-sub { font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
+            .cta-actions { width: 100%; }
+            .cta-btn {
+                width: 100% !important;
+                max-width: 320px;
+                padding: 14px 20px !important;
+                font-size: 14px !important;
+                white-space: nowrap;
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-action-link span { display: none; }
+            .header-action-link { padding: 6px; }
+            .header-btn-primary { padding: 6px 12px; font-size: 11px; }
+            .hero-cta-group { flex-direction: column; width: 100%; }
+            .hero-cta-group .btn { width: 100%; justify-content: center; }
+            .cta-box { padding: 36px 16px; }
+            .cta-title { font-size: 24px; }
+            .cta-sub { font-size: 13.5px; }
+            .cta-btn { max-width: 100%; font-size: 13.5px !important; padding: 13px 16px !important; }
         }
     </style>
 </head>
@@ -1179,7 +1235,7 @@
                         <h3 class="car-name">{{ vehicle.display_name }}</h3>
                         <div class="car-specs">
                             <span class="car-spec-tag">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="8" rx="2"/><path d="M5 11l2-5h10l2 5"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/></svg>
                                 {{ vehicle.body_style }}
                             </span>
                             <span class="car-spec-tag">⚡ {{ vehicle.clean_fuel_type }}</span>
@@ -1386,9 +1442,9 @@
                     Step inside the digital showroom. Filter through our curated collection of supercars and grand tourers, review inspection certificates, or schedule an exclusive private test drive today.
                 </p>
                 <div class="cta-actions">
-                    <a href="/inventory/" class="btn btn-primary" style="font-size: 16px; padding: 18px 36px;">
+                    <a href="/inventory/" class="btn btn-primary cta-btn">
                         <span>Explore Showroom Now</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </a>
                 </div>
             </div>

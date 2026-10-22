@@ -671,19 +671,133 @@
         /* Responsive */
         @media (max-width: 1024px) {
             .vehicle-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 24px;
+                width: 100%;
+                max-width: 100%;
+            }
+            .showcase-column,
+            .detail-panel {
+                min-width: 0;
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
             }
             .main-stage {
-                height: 400px;
+                height: 380px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
         }
         @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100vw;
+            }
+            .container {
+                padding: 0 16px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
             .nav-links { display: none; }
-            .site-header { padding: 10px 12px; }
-            .header-inner { height: 54px; padding: 0 12px; }
-            .main-stage { height: 280px; }
-            .specs-grid { grid-template-columns: 1fr; }
+            .site-header {
+                position: sticky;
+                top: 0;
+                padding: 0;
+                background: rgba(8, 8, 10, 0.95);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .header-inner {
+                height: 56px;
+                padding: 0 16px;
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .logo-title { font-size: 12px; letter-spacing: 0.18em; }
+            .logo-tag { font-size: 7px; }
+            .detail-hero { padding: 30px 0 18px; }
+            .detail-title { font-size: clamp(22px, 5.8vw, 32px); line-height: 1.2; word-break: break-word; }
+            .detail-sub { font-size: 13px; line-height: 1.5; }
+            .back-nav-bar { margin-bottom: 16px; gap: 10px; width: 100%; box-sizing: border-box; }
+            .main-stage { height: clamp(220px, 58vw, 320px); border-radius: 16px; }
+            .thumb-strip {
+                gap: 8px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 6px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            .thumb-item { width: 72px; height: 50px; flex: 0 0 72px; border-radius: 10px; }
+            .gallery-narrative-card {
+                padding: 20px 16px;
+                border-radius: 16px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            .narrative-title { font-size: 17px; word-break: break-word; overflow-wrap: break-word; }
+            .vehicle-description { font-size: 13.5px; line-height: 1.7; word-break: break-word; }
+            .specs-grid { grid-template-columns: 1fr; gap: 10px; width: 100%; box-sizing: border-box; }
+            .spec-card { min-width: 0; max-width: 100%; box-sizing: border-box; }
+            .spec-val { word-break: break-word; }
+            .detail-panel {
+                padding: 22px 16px;
+                border-radius: 18px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            .price-box { width: 100%; max-width: 100%; box-sizing: border-box; }
+            .price-amount { font-size: clamp(24px, 6.5vw, 34px); word-break: break-all; }
+            .price-financing-sub { word-break: break-word; font-size: 12px; }
+            .action-cta-group { width: 100%; box-sizing: border-box; }
+            .action-cta-group .btn {
+                width: 100% !important;
+                max-width: 100%;
+                box-sizing: border-box;
+                padding: 13px 14px;
+                font-size: 13px;
+                line-height: 1.35;
+                white-space: normal;
+                text-align: center;
+            }
+            .action-cta-group .btn span {
+                white-space: normal;
+                text-align: center;
+                display: inline-block;
+            }
+            .assurance-list { width: 100%; box-sizing: border-box; }
+            .assurance-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+                font-size: 12px;
+                line-height: 1.45;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
             .related-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .header-action-link span { display: none; }
+            .header-action-link { padding: 6px; }
+            .back-pill-btn { font-size: 12px; padding: 7px 12px; }
+            .action-cta-group .btn { font-size: 12.5px; padding: 12px 10px; }
         }
     </style>
 </head>
@@ -756,7 +870,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 <span>Back to Showroom Vault</span>
             </a>
-            <div class="vin-tag">VIN: {{ vehicle.vin }}</div>
+            {% if vehicle.vin %}<div class="vin-tag">VIN: {{ vehicle.vin }}</div>{% endif %}
         </div>
 
         <!-- 4. SHOWCASE & SPECS LAYOUT -->
